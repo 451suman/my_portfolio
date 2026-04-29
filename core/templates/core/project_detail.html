@@ -1,0 +1,282 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ project.title }} - Project Details{% endblock %}
+
+{% block content %}
+<!-- Project Header -->
+<section class="py-5" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 fade-in">
+                <h1 class="display-4 fw-bold mb-3">{{ project.title }}</h1>
+                <p class="lead text-muted mb-4">{{ project.short_description|default:project.description|truncatewords:30 }}</p>
+                
+                <div class="project-meta mb-4">
+                    <div class="d-flex flex-wrap gap-3">
+                        <span class="badge bg-primary">{{ project.category.name|default:'Uncategorized' }}</span>
+                        {% if project.featured %}
+                        <span class="badge bg-warning">Featured</span>
+                        {% endif %}
+                        <span class="badge bg-info">{{ project.get_status_display }}</span>
+                    </div>
+                </div>
+                
+                <div class="project-links">
+                    {% if project.github_url %}
+                    <a href="{{ project.github_url }}" class="btn btn-outline-primary me-3" target="_blank">
+                        <i class="fab fa-github me-2"></i>View Code
+                    </a>
+                    {% endif %}
+                    {% if project.live_demo_url %}
+                    <a href="{{ project.live_demo_url }}" class="btn btn-primary me-3" target="_blank">
+                        <i class="fas fa-external-link-alt me-2"></i>Live Demo
+                    </a>
+                    {% endif %}
+                    {% if project.project_url %}
+                    <a href="{{ project.project_url }}" class="btn btn-outline-secondary" target="_blank">
+                        <i class="fas fa-link me-2"></i>Project URL
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-4 fade-in">
+                <div class="project-info-card">
+                    <h5 class="mb-3">Project Information</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <strong>Owner:</strong> {{ project.owner.username }}
+                        </li>
+                        <li class="mb-2">
+                            <strong>Duration:</strong> 
+                            {{ project.start_date|date:"M Y" }} {% if project.end_date %}- {{ project.end_date|date:"M Y" }}{% endif %}
+                        </li>
+                        {% if project.team_size %}
+                        <li class="mb-2">
+                            <strong>Team Size:</strong> {{ project.team_size }} members
+                        </li>
+                        {% endif %}
+                        <li class="mb-2">
+                            <strong>Type:</strong> 
+                            {% if project.is_personal_project %}Personal{% else %}Professional{% endif %}
+                        </li>
+                        {% if project.is_open_source %}
+                        <li class="mb-2">
+                            <strong>License:</strong> Open Source
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Project Gallery -->
+{% if images %}
+<section class="py-5 bg-dark">
+    <div class="container">
+        <h2 class="display-5 fw-bold mb-4 fade-in">Project Gallery</h2>
+        <div class="row g-4">
+            {% for image in images %}
+            <div class="col-md-6 col-lg-4 fade-in" data-animation-delay="{{ forloop.counter0 }}">
+                <div class="gallery-item">
+                    <img src="{{ image.image.url }}" class="img-fluid rounded" alt="{{ image.caption|default:'Project image' }}">
+                    {% if image.caption %}
+                    <p class="text-muted mt-2 small">{{ image.caption }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Project Description -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 fade-in">
+                <h2 class="display-5 fw-bold mb-4">About This Project</h2>
+                <div class="project-description">
+                    {{ project.description|safe }}
+                </div>
+                
+                {% if project.architecture_explanation %}
+                <h3 class="mt-5 mb-3">Architecture & Design</h3>
+                <div class="architecture-section">
+                    {{ project.architecture_explanation|safe }}
+                </div>
+                {% endif %}
+                
+                {% if project.challenges_solved %}
+                <h3 class="mt-5 mb-3">Challenges & Solutions</h3>
+                <div class="challenges-section">
+                    {{ project.challenges_solved|safe }}
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="col-lg-4 fade-in">
+                <div class="skills-card">
+                    <h3 class="mb-4">Technologies Used</h3>
+                    <div class="skills-list">
+                        {% for skill in project.skills.all %}
+                        <div class="skill-tag">
+                            <span class="badge bg-primary">{{ skill.name }}</span>
+                            {% if skill.icon %}
+                            <i class="{{ skill.icon }} ms-2"></i>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related Projects -->
+{% if related_projects %}
+<section class="py-5 bg-dark">
+    <div class="container">
+        <h2 class="display-5 fw-bold mb-4 fade-in">Related Projects</h2>
+        <div class="row g-4">
+            {% for related_project in related_projects %}
+            <div class="col-md-6 col-lg-4 fade-in" data-animation-delay="{{ forloop.counter0 }}">
+                <div class="card project-card h-100">
+                    {% if related_project.cover_image %}
+                    <img src="{{ related_project.cover_image.url }}" class="card-img-top" alt="{{ related_project.title }}">
+                    {% else %}
+                    <div class="card-img-top d-flex align-items-center justify-content-center bg-secondary">
+                        <i class="fas fa-code fa-3x text-muted"></i>
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ related_project.title }}</h5>
+                        <p class="card-text text-muted">{{ related_project.short_description|default:related_project.description|truncatewords:15 }}</p>
+                        <a href="{% url 'core:project_detail' related_project.slug %}" class="btn btn-outline-primary btn-sm">
+                            View Details <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Call to Action -->
+<section class="py-5 text-center" style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 fade-in">
+                <h2 class="display-4 fw-bold text-white mb-4">Interested in This Project?</h2>
+                <p class="lead text-white-50 mb-4">
+                    Have questions about this project or want to discuss something similar? 
+                    I'd love to hear from you!
+                </p>
+                <a href="{% url 'core:contact' %}" class="btn btn-light btn-lg">
+                    <i class="fas fa-paper-plane me-2"></i>Get In Touch
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Project Info Card */
+.project-info-card {
+    background: var(--light-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    padding: 25px;
+}
+
+.project-info-card ul li {
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.project-info-card ul li:last-child {
+    border-bottom: none;
+}
+
+/* Skills Card */
+.skills-card {
+    background: var(--light-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    padding: 25px;
+}
+
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.skill-tag {
+    display: flex;
+    align-items: center;
+}
+
+/* Gallery Styles */
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.gallery-item img {
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Content Sections */
+.project-description,
+.architecture-section,
+.challenges-section {
+    line-height: 1.8;
+}
+
+.project-description h3,
+.architecture-section h3,
+.challenges-section h3 {
+    color: var(--primary-color);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.project-description ul,
+.architecture-section ul,
+.challenges-section ul {
+    margin-left: 20px;
+}
+
+.project-description code,
+.architecture-section code,
+.challenges-section code {
+    background: var(--darker-bg);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.project-description pre,
+.architecture-section pre,
+.challenges-section pre {
+    background: var(--darker-bg);
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', monospace;
+}
+</style>
+{% endblock %}

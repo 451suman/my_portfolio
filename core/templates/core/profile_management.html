@@ -1,0 +1,229 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile Management - Super Admin{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card bg-dark text-light">
+                <div class="card-header bg-primary">
+                    <h2 class="mb-0">
+                        <i class="fas fa-user-cog me-2"></i>
+                        Profile Management - Super Admin
+                    </h2>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <!-- Basic Information -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h4 class="mb-3">
+                                    <i class="fas fa-user me-2"></i>Basic Information
+                                </h4>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="first_name" class="form-label">First Name</label>
+                                <input type="text" class="form-control bg-dark text-light border-secondary" 
+                                       id="first_name" name="first_name" value="{{ user.first_name }}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="last_name" class="form-label">Last Name</label>
+                                <input type="text" class="form-control bg-dark text-light border-secondary" 
+                                       id="last_name" name="last_name" value="{{ user.last_name }}">
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label for="bio" class="form-label">Bio</label>
+                                <textarea class="form-control bg-dark text-light border-secondary" 
+                                          id="bio" name="bio" rows="3">{{ user.bio }}</textarea>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label for="location" class="form-label">Location</label>
+                                <input type="text" class="form-control bg-dark text-light border-secondary" 
+                                       id="location" name="location" value="{{ user.location }}">
+                            </div>
+                        </div>
+
+                        <!-- Profile Picture -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h4 class="mb-3">
+                                    <i class="fas fa-camera me-2"></i>Profile Picture
+                                </h4>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="avatar" class="form-label">Upload Avatar</label>
+                                <input type="file" class="form-control bg-dark text-light border-secondary" 
+                                       id="avatar" name="avatar" accept="image/*">
+                                {% if user.avatar %}
+                                    <small class="text-muted">Current: {{ user.avatar.name }}</small>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {% if user.avatar %}
+                                    <img src="{{ user.avatar.url }}" class="img-thumbnail" 
+                                         alt="Current Avatar" style="max-height: 100px;">
+                                {% else %}
+                                    <div class="bg-secondary d-flex align-items-center justify-content-center" 
+                                         style="height: 100px;">
+                                        <i class="fas fa-user fa-2x text-muted"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Social Links -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h4 class="mb-3">
+                                    <i class="fas fa-link me-2"></i>Social Links
+                                </h4>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="github_username" class="form-label">GitHub Username</label>
+                                <input type="text" class="form-control bg-dark text-light border-secondary" 
+                                       id="github_username" name="github_username" value="{{ user.github_username }}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="linkedin_url" class="form-label">LinkedIn URL</label>
+                                <input type="url" class="form-control bg-dark text-light border-secondary" 
+                                       id="linkedin_url" name="linkedin_url" value="{{ user.linkedin_url }}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="twitter_url" class="form-label">Twitter URL</label>
+                                <input type="url" class="form-control bg-dark text-light border-secondary" 
+                                       id="twitter_url" name="twitter_url" value="{{ user.twitter_url }}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="website_url" class="form-label">Website URL</label>
+                                <input type="url" class="form-control bg-dark text-light border-secondary" 
+                                       id="website_url" name="website_url" value="{{ user.website_url }}">
+                            </div>
+                        </div>
+
+                        <!-- Professional Information -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h4 class="mb-3">
+                                    <i class="fas fa-briefcase me-2"></i>Professional Information
+                                </h4>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="phone" class="form-label">Phone</label>
+                                <input type="tel" class="form-control bg-dark text-light border-secondary" 
+                                       id="phone" name="phone" value="{{ profile.phone }}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="experience_years" class="form-label">Experience Years</label>
+                                <input type="number" class="form-control bg-dark text-light border-secondary" 
+                                       id="experience_years" name="experience_years" value="{{ profile.experience_years }}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="availability" class="form-label">Availability</label>
+                                <select class="form-control bg-dark text-light border-secondary" 
+                                        id="availability" name="availability">
+                                    <option value="available" {% if profile.availability == 'available' %}selected{% endif %}>Available</option>
+                                    <option value="busy" {% if profile.availability == 'busy' %}selected{% endif %}>Busy</option>
+                                    <option value="open_to_offers" {% if profile.availability == 'open_to_offers' %}selected{% endif %}>Open to Offers</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="preferred_work_type" class="form-label">Preferred Work Type</label>
+                                <select class="form-control bg-dark text-light border-secondary" 
+                                        id="preferred_work_type" name="preferred_work_type">
+                                    <option value="remote" {% if profile.preferred_work_type == 'remote' %}selected{% endif %}>Remote</option>
+                                    <option value="onsite" {% if profile.preferred_work_type == 'onsite' %}selected{% endif %}>On-site</option>
+                                    <option value="hybrid" {% if profile.preferred_work_type == 'hybrid' %}selected{% endif %}>Hybrid</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="expected_salary_min" class="form-label">Expected Salary Min</label>
+                                <input type="number" class="form-control bg-dark text-light border-secondary" 
+                                       id="expected_salary_min" name="expected_salary_min" value="{{ profile.expected_salary_min }}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="expected_salary_max" class="form-label">Expected Salary Max</label>
+                                <input type="number" class="form-control bg-dark text-light border-secondary" 
+                                       id="expected_salary_max" name="expected_salary_max" value="{{ profile.expected_salary_max }}">
+                            </div>
+                        </div>
+
+                        <!-- Resume Upload -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h4 class="mb-3">
+                                    <i class="fas fa-file-pdf me-2"></i>Resume
+                                </h4>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="resume" class="form-label">Upload Resume</label>
+                                <input type="file" class="form-control bg-dark text-light border-secondary" 
+                                       id="resume" name="resume" accept=".pdf,.doc,.docx">
+                                {% if profile.resume %}
+                                    <small class="text-muted">Current: {{ profile.resume.name }}</small>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {% if profile.resume %}
+                                    <a href="{{ profile.resume.url }}" class="btn btn-outline-primary btn-sm" target="_blank">
+                                        <i class="fas fa-download me-1"></i>View Current Resume
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="row">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-save me-2"></i>Save Profile
+                                </button>
+                                {% if created %}
+                                    <span class="ms-3 text-success">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        New profile created for your account!
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .form-control:focus {
+        background-color: #1e293b !important;
+        border-color: var(--primary-color) !important;
+        color: #f1f5f9 !important;
+    }
+    
+    .form-label {
+        color: #94a3b8;
+        font-weight: 500;
+    }
+    
+    .card-header {
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .img-thumbnail {
+        border: 2px solid var(--primary-color);
+    }
+</style>
+{% endblock %}

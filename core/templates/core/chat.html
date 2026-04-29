@@ -1,0 +1,605 @@
+{% extends 'base.html' %}
+{% load time_filters %}
+{% block title %}Chat - Real-time Communication{% endblock %}
+{% block content %}
+    <!-- Chat Header -->
+    <section class="py-4"
+             style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
+        <div class="container">
+            <div class="text-center fade-in">
+                <h1 class="display-5 fw-bold mb-2">Real-time Chat</h1>
+                <p class="lead text-muted">Connect and communicate in real-time</p>
+            </div>
+        </div>
+    </section>
+    <!-- Chat Interface -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <!-- Chat Rooms Sidebar -->
+                <div class="col-lg-3 fade-in">
+                    <div class="chat-sidebar">
+                        <div class="sidebar-header">
+                            <h4>Chat Rooms</h4>
+                            <button class="btn btn-primary btn-sm" id="create-room-btn">
+                                <i class="fas fa-plus me-1"></i>Create Room
+                            </button>
+                        </div>
+                        <div class="rooms-list">
+                            {% for room in chat_rooms %}
+                                <div class="room-item" data-room-slug="{{ room.slug }}">
+                                    <div class="room-info">
+                                        <h6>{{ room.name }}</h6>
+                                        <small class="text-muted">{{ room.room_type|title }}</small>
+                                    </div>
+                                    <div class="room-meta">
+                                        <span class="badge bg-success online-users-count"
+                                              data-room="{{ room.slug }}">0</span>
+                                        <small class="text-muted last-activity">{{ room.last_activity|timeago }}</small>
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <div class="text-center py-4">
+                                    <i class="fas fa-comments fa-3x text-muted mb-3"></i>
+                                    <p class="text-muted">No chat rooms available</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <!-- Main Chat Area -->
+                <div class="col-lg-6 fade-in">
+                    <div class="chat-container">
+                        <div class="chat-header" id="chat-header">
+                            <div class="chat-room-info">
+                                <h5 id="current-room-name">Select a room to start chatting</h5>
+                                <small class="text-muted" id="current-room-type">Choose a chat room from the sidebar</small>
+                            </div>
+                            <div class="chat-actions">
+                                <button class="btn btn-outline-secondary btn-sm"
+                                        id="room-settings-btn"
+                                        style="display: none">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm"
+                                        id="leave-room-btn"
+                                        style="display: none">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chat-messages" id="chat-messages">
+                            <div class="welcome-message text-center py-5">
+                                <i class="fas fa-comments fa-4x text-muted mb-3"></i>
+                                <h4 class="text-muted">Welcome to Chat</h4>
+                                <p class="text-muted">Select a room from the sidebar to start chatting</p>
+                            </div>
+                        </div>
+                        <div class="chat-input" id="chat-input" style="display: none;">
+                            <div class="typing-indicator" id="typing-indicator" style="display: none;">
+                                <small class="text-muted"><em>Someone is typing...</em></small>
+                            </div>
+                            <div class="input-group">
+                                <input type="text"
+                                       class="form-control"
+                                       id="message-input"
+                                       placeholder="Type your message..."
+                                       disabled>
+                                <button class="btn btn-primary" id="send-btn" disabled>
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Online Users Sidebar -->
+                <div class="col-lg-3 fade-in">
+                    <div class="online-users-sidebar">
+                        <div class="sidebar-header">
+                            <h4>Online Users</h4>
+                            <span class="badge bg-success" id="online-count">0</span>
+                        </div>
+                        <div class="online-users-list" id="online-users-list">
+                            <div class="text-center py-4">
+                                <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                                <p class="text-muted">No users online</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Create Room Modal -->
+    <div class="modal fade" id="createRoomModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content bg-dark text-light">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title">Create Chat Room</h5>
+                    <button type="button"
+                            class="btn-close btn-close-white"
+                            data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="create-room-form">
+                        <div class="mb-3">
+                            <label for="room-name" class="form-label">Room Name</label>
+                            <input type="text"
+                                   class="form-control bg-dark text-light border-secondary"
+                                   id="room-name"
+                                   required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="room-description" class="form-label">Description</label>
+                            <textarea class="form-control bg-dark text-light border-secondary"
+                                      id="room-description"
+                                      rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="room-type" class="form-label">Room Type</label>
+                            <select class="form-control bg-dark text-light border-secondary"
+                                    id="room-type">
+                                <option value="public">Public</option>
+                                <option value="private">Private</option>
+                                <option value="direct">Direct Message</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="max-participants" class="form-label">Max Participants</label>
+                            <input type="number"
+                                   class="form-control bg-dark text-light border-secondary"
+                                   id="max-participants"
+                                   min="2"
+                                   max="100"
+                                   value="10">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer border-secondary">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="create-room-submit">Create Room</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block extra_css %}
+    <style>
+    /* Chat Container */
+    .chat-container {
+        background: var(--light-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 15px;
+        height: 600px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .chat-header {
+        background: var(--darker-bg);
+        padding: 15px 20px;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .chat-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+        background: var(--light-bg);
+    }
+
+    .chat-input {
+        background: var(--darker-bg);
+        padding: 15px 20px;
+        border-top: 1px solid var(--border-color);
+    }
+
+    /* Sidebar Styles */
+    .chat-sidebar,
+    .online-users-sidebar {
+        background: var(--light-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 15px;
+        padding: 20px;
+        height: 600px;
+        overflow-y: auto;
+    }
+
+    .sidebar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .room-item {
+        background: var(--darker-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .room-item:hover {
+        background: rgba(99, 102, 241, 0.1);
+        border-color: var(--primary-color);
+    }
+
+    .room-item.active {
+        background: rgba(99, 102, 241, 0.2);
+        border-color: var(--primary-color);
+    }
+
+    .room-info h6 {
+        margin-bottom: 5px;
+        color: var(--text-primary);
+    }
+
+    .room-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 8px;
+    }
+
+    /* Message Styles */
+    .message {
+        margin-bottom: 20px;
+        animation: slideInUp 0.3s ease;
+    }
+
+    .message.own {
+        text-align: right;
+    }
+
+    .message-bubble {
+        display: inline-block;
+        max-width: 70%;
+        padding: 12px 16px;
+        border-radius: 18px;
+        background: var(--darker-bg);
+        border: 1px solid var(--border-color);
+    }
+
+    .message.own .message-bubble {
+        background: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+
+    .message-author {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        margin-bottom: 5px;
+    }
+
+    .message-time {
+        font-size: 0.7rem;
+        color: var(--text-secondary);
+        margin-top: 5px;
+    }
+
+    /* Online Users */
+    .online-user-item {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        background: var(--darker-bg);
+        border: 1px solid var(--border-color);
+    }
+
+    .online-user-item img {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    .online-indicator {
+        width: 10px;
+        height: 10px;
+        background: var(--success-color);
+        border-radius: 50%;
+        margin-left: auto;
+    }
+
+    /* Animations */
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+
+        .chat-sidebar,
+        .online-users-sidebar {
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .chat-container {
+            height: 500px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .message-bubble {
+            max-width: 85%;
+        }
+
+        .chat-container {
+            height: 400px;
+        }
+    }
+
+    /* Typing Indicator */
+    .typing-indicator {
+        padding: 5px 20px;
+        font-style: italic;
+    }
+
+    /* Welcome Message */
+    .welcome-message {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        color: var(--text-secondary);
+    }
+    </style>
+{% endblock %}
+{% block extra_js %}
+    <script>
+    // Chat functionality
+    let currentRoom = null;
+    let chatSocket = null;
+    let notificationSocket = null;
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize WebSocket connections
+        initializeWebSockets();
+
+        // Room selection
+        const roomItems = document.querySelectorAll('.room-item');
+        roomItems.forEach(item => {
+            item.addEventListener('click', function () {
+                const roomSlug = this.getAttribute('data-room-slug');
+                joinRoom(roomSlug);
+            });
+        });
+
+        // Message sending
+        const messageInput = document.getElementById('message-input');
+        const sendBtn = document.getElementById('send-btn');
+
+        if (messageInput && sendBtn) {
+            messageInput.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+
+            sendBtn.addEventListener('click', sendMessage);
+        }
+
+        // Create room modal
+        const createRoomBtn = document.getElementById('create-room-btn');
+        const createRoomSubmit = document.getElementById('create-room-submit');
+
+        if (createRoomBtn) {
+            createRoomBtn.addEventListener('click', function () {
+                const modal = new bootstrap.Modal(document.getElementById('createRoomModal'));
+                modal.show();
+            });
+        }
+
+        if (createRoomSubmit) {
+            createRoomSubmit.addEventListener('click', createRoom);
+        }
+    });
+
+    function initializeWebSockets() {
+        // Notification socket
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const wsUrl = `${protocol}//${window.location.host}/ws/notifications/`;
+
+        notificationSocket = new WebSocket(wsUrl);
+
+        notificationSocket.onopen = function (e) {
+            console.log('Notification socket connected');
+        };
+
+        notificationSocket.onmessage = function (e) {
+            const data = JSON.parse(e.data);
+            if (data.type === 'notification') {
+                showNotification(data.notification);
+            }
+        };
+
+        notificationSocket.onclose = function (e) {
+            console.log('Notification socket disconnected');
+            setTimeout(initializeWebSockets, 5000);
+        };
+    }
+
+    function joinRoom(roomSlug) {
+        // Close existing connection
+        if (chatSocket) {
+            chatSocket.close();
+        }
+
+        // Update UI
+        currentRoom = roomSlug;
+
+        // Remove active class from all rooms
+        document.querySelectorAll('.room-item').forEach(item => {
+            item.classList.remove('active');
+        });
+
+        // Add active class to selected room
+        document.querySelector(`[data-room-slug="${roomSlug}"]`).classList.add('active');
+
+        // Update chat header
+        const roomName = document.querySelector(`[data-room-slug="${roomSlug}"] h6`).textContent;
+        document.getElementById('current-room-name').textContent = roomName;
+        document.getElementById('current-room-type').textContent = 'Connected';
+
+        // Show chat controls
+        document.getElementById('room-settings-btn').style.display = 'block';
+        document.getElementById('leave-room-btn').style.display = 'block';
+        document.getElementById('chat-input').style.display = 'block';
+        document.getElementById('message-input').disabled = false;
+        document.getElementById('send-btn').disabled = false;
+
+        // Clear messages
+        document.getElementById('chat-messages').innerHTML = '';
+
+        // Connect to room
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const wsUrl = `${protocol}//${window.location.host}/ws/chat/${roomSlug}/`;
+
+        chatSocket = new WebSocket(wsUrl);
+
+        chatSocket.onopen = function (e) {
+            console.log(`Connected to room: ${roomSlug}`);
+        };
+
+        chatSocket.onmessage = function (e) {
+            const data = JSON.parse(e.data);
+            handleChatMessage(data);
+        };
+
+        chatSocket.onclose = function (e) {
+            console.log('Chat socket disconnected');
+            document.getElementById('message-input').disabled = true;
+            document.getElementById('send-btn').disabled = true;
+        };
+    }
+
+    function handleChatMessage(data) {
+        if (data.type === 'message') {
+            addMessage(data.message);
+        } else if (data.type === 'typing') {
+            showTypingIndicator(data.user, data.is_typing);
+        } else if (data.type === 'reaction') {
+            handleReaction(data);
+        }
+    }
+
+    function addMessage(message) {
+        const messagesContainer = document.getElementById('chat-messages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message';
+
+        // Check if it's our own message
+        const isOwn = message.author_id === '{{ user.id|default:"" }}';
+        if (isOwn) {
+            messageDiv.classList.add('own');
+        }
+
+        messageDiv.innerHTML = `
+        <div class="message-bubble">
+            ${!isOwn ? `<div class="message-author">${message.author}</div>` : ''}
+            <div class="message-content">${message.content}</div>
+            <div class="message-time">${formatTime(message.created_at)}</div>
+        </div>
+    `;
+
+        messagesContainer.appendChild(messageDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    function sendMessage() {
+        const messageInput = document.getElementById('message-input');
+        const content = messageInput.value.trim();
+
+        if (content && chatSocket && chatSocket.readyState === WebSocket.OPEN) {
+            chatSocket.send(JSON.stringify({
+                'type': 'text',
+                'content': content
+            }));
+
+            messageInput.value = '';
+        }
+    }
+
+    function createRoom() {
+        const form = document.getElementById('create-room-form');
+        const formData = new FormData(form);
+
+        const data = {
+            name: formData.get('room-name'),
+            description: formData.get('room-description'),
+            room_type: formData.get('room-type'),
+            max_participants: formData.get('max-participants')
+        };
+
+        // Here you would make an API call to create the room
+        // For now, just close the modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('createRoomModal'));
+        modal.hide();
+
+        // Show success message
+        showNotification({
+            title: 'Room Created',
+            message: 'Chat room created successfully!'
+        });
+    }
+
+    function showNotification(notification) {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = 'alert alert-info alert-dismissible fade show position-fixed';
+        alertDiv.style.cssText = 'top: 80px; right: 20px; z-index: 9999; min-width: 300px;';
+        alertDiv.innerHTML = `
+        <strong>${notification.title}</strong><br>
+        ${notification.message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+
+        document.body.appendChild(alertDiv);
+
+        setTimeout(() => {
+            if (alertDiv.parentNode) {
+                alertDiv.parentNode.removeChild(alertDiv);
+            }
+        }, 5000);
+    }
+
+    function formatTime(timestamp) {
+        const date = new Date(timestamp);
+        return date.toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }
+
+    function showTypingIndicator(user, isTyping) {
+        const indicator = document.getElementById('typing-indicator');
+        if (isTyping) {
+            indicator.style.display = 'block';
+            indicator.innerHTML = `<small class="text-muted"><em>${user} is typing...</em></small>`;
+        } else {
+            indicator.style.display = 'none';
+        }
+    }
+    </script>
+{% endblock %}

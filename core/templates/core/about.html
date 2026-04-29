@@ -1,0 +1,355 @@
+{% extends 'base.html' %}
+{% block title %}About Me - Professional Backend Developer{% endblock %}
+{% block content %}
+    <!-- About Section -->
+    <section class="py-5"
+             style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-5 fade-in">
+                    <div class="text-center">
+                        <div class="profile-image mb-4">
+                            {% if profile.user.avatar %}
+                                <img src="{{ profile.user.avatar.url }}"
+                                     class="rounded-circle img-fluid shadow-lg"
+                                     alt="Profile"
+                                     style="width: 280px;
+                                            height: 280px;
+                                            object-fit: cover;
+                                            border: 5px solid #3b82f6;
+                                            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3)">
+                            {% else %}
+                                <div class="rounded-circle d-flex align-items-center justify-content-center bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg"
+                                     style="width: 280px;
+                                            height: 280px;
+                                            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3)">
+                                    <i class="fas fa-user fa-5x text-white"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <h1 class="display-4 fw-bold mb-3 text-white">{{ profile.user.first_name }} {{ profile.user.last_name }}</h1>
+                        <p class="lead text-info mb-4">Professional Backend Developer & System Architect</p>
+                        <div class="social-links mb-4">
+                            {% if profile.user.github_username %}
+                                <a href="https://github.com/{{ profile.user.github_username }}"
+                                   class="btn btn-outline-light btn-sm me-2"
+                                   target="_blank">
+                                    <i class="fab fa-github me-1"></i>GitHub
+                                </a>
+                            {% endif %}
+                            {% if profile.user.linkedin_url %}
+                                <a href="{{ profile.user.linkedin_url }}"
+                                   class="btn btn-outline-light btn-sm me-2"
+                                   target="_blank">
+                                    <i class="fab fa-linkedin me-1"></i>LinkedIn
+                                </a>
+                            {% endif %}
+                            {% if profile.user.twitter_url %}
+                                <a href="{{ profile.user.twitter_url }}"
+                                   class="btn btn-outline-light btn-sm me-2"
+                                   target="_blank">
+                                    <i class="fab fa-twitter me-1"></i>Twitter
+                                </a>
+                            {% endif %}
+                            {% if profile.user.website_url %}
+                                <a href="{{ profile.user.website_url }}"
+                                   class="btn btn-outline-light btn-sm me-2"
+                                   target="_blank">
+                                    <i class="fas fa-globe me-1"></i>Website
+                                </a>
+                            {% endif %}
+                            {% if profile.user.email %}
+                                <a href="mailto:{{ profile.user.email }}"
+                                   class="btn btn-outline-light btn-sm">
+                                    <i class="fas fa-envelope me-1"></i>Email
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7 fade-in">
+                    <div class="about-content">
+                        <h3 class="mb-4">About Me</h3>
+                        <p class="text-muted mb-4">
+                            {{ profile.user.bio|default:"Passionate backend developer with expertise in building scalable
+                            web applications, APIs, and microservices. I love solving complex problems and creating elegant
+                            solutions that make a real impact." }}
+                        </p>
+                        <!-- Personal Information Cards -->
+                        <div class="row mb-4">
+                            {% if profile.phone %}
+                                <div class="col-md-6 mb-3">
+                                    <div class="card bg-dark border-info">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-info">
+                                                <i class="fas fa-phone me-2"></i>Phone
+                                            </h5>
+                                            <p class="card-text text-white">{{ profile.phone }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if profile.user.location %}
+                                <div class="col-md-6 mb-3">
+                                    <div class="card bg-dark border-warning">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-warning">
+                                                <i class="fas fa-map-marker-alt me-2"></i>Location
+                                            </h5>
+                                            <p class="card-text text-white">{{ profile.user.location }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="row mb-4">
+                            {% if profile.experience_years %}
+                                <div class="col-md-6 mb-3">
+                                    <div class="card bg-dark border-success">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-success">
+                                                <i class="fas fa-briefcase me-2"></i>Experience
+                                            </h5>
+                                            <p class="card-text text-white">{{ profile.experience_years }}+ Years</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if profile.availability %}
+                                <div class="col-md-6 mb-3">
+                                    <div class="card bg-dark border-primary">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-primary">
+                                                <i class="fas fa-clock me-2"></i>Availability
+                                            </h5>
+                                            <p class="card-text text-white">{{ profile.get_availability_display|default:profile.availability|title }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                        {% if profile.resume %}
+                            <div class="text-center mb-4">
+                                <a href="{{ profile.resume.url }}"
+                                   class="btn btn-primary btn-lg"
+                                   download>
+                                    <i class="fas fa-download me-2"></i>Download Resume
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Experience Section -->
+    {% if experiences %}
+        <section class="py-5 bg-dark">
+            <div class="container">
+                <div class="text-center mb-5 fade-in">
+                    <h2 class="display-4 fw-bold mb-3">Work Experience</h2>
+                    <p class="lead text-muted">My professional journey and accomplishments</p>
+                </div>
+                <div class="timeline">
+                    {% for experience in experiences %}
+                        <div class="timeline-item fade-in"
+                             data-animation-delay="{{ forloop.counter0 }}">
+                            <div class="timeline-content">
+                                <div class="timeline-date">
+                                    <span class="badge bg-primary">{{ experience.start_date|date:"M Y" }} -
+                                        {% if experience.is_current_job %}
+                                            Present
+                                        {% else %}
+                                            {{ experience.end_date|date:"M Y" }}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                <div class="timeline-body">
+                                    <h4>{{ experience.position }}</h4>
+                                    <h5 class="text-primary">{{ experience.company }}</h5>
+                                    <p class="text-muted">{{ experience.description }}</p>
+                                    {% if experience.company_website %}
+                                        <a href="{{ experience.company_website }}"
+                                           class="btn btn-outline-primary btn-sm"
+                                           target="_blank">
+                                            <i class="fas fa-external-link-alt me-1"></i>Visit Website
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    {% endif %}
+    <!-- Skills Section -->
+    {% if skills %}
+        <section class="py-5"
+                 style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
+            <div class="container">
+                <div class="text-center mb-5 fade-in">
+                    <h2 class="display-4 fw-bold mb-3">Technical Skills</h2>
+                    <p class="lead text-muted">Technologies and frameworks I work with</p>
+                </div>
+                <div class="row">
+                    {% for skill in skills %}
+                        <div class="col-md-6 col-lg-4 mb-4 fade-in"
+                             data-animation-delay="{{ forloop.counter0 }}">
+                            <div class="skill-item">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="fw-semibold">{{ skill.name }}</span>
+                                    <span class="text-muted">{{ skill.proficiency_level }}%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="{{ skill.proficiency_level }}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    {% endif %}
+    <!-- Call to Action Section -->
+    <section class="py-5 text-center"
+             style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 fade-in">
+                    <h2 class="display-4 fw-bold text-white mb-4">Let's Work Together</h2>
+                    <p class="lead text-white-50 mb-4">
+                        I'm always interested in hearing about new projects and opportunities.
+                        Whether you have a question or just want to say hi, feel free to reach out!
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="{% url 'core:contact' %}" class="btn btn-light btn-lg me-3">
+                            <i class="fas fa-paper-plane me-2"></i>Get In Touch
+                        </a>
+                        <a href="{% url 'core:projects' %}" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-briefcase me-2"></i>View Portfolio
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block extra_css %}
+    <style>
+    /* Timeline Styles */
+    .timeline {
+        position: relative;
+        padding: 20px 0;
+    }
+
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: var(--primary-color);
+        transform: translateX(-50%);
+    }
+
+    .timeline-item {
+        position: relative;
+        margin-bottom: 50px;
+    }
+
+    .timeline-content {
+        background: var(--light-bg);
+        padding: 30px;
+        border-radius: 15px;
+        border: 1px solid var(--border-color);
+        position: relative;
+        width: 45%;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-content {
+        margin-left: auto;
+    }
+
+    .timeline-item:nth-child(even) .timeline-content {
+        margin-right: auto;
+    }
+
+    .timeline-date {
+        position: absolute;
+        top: 20px;
+        right: -120px;
+        width: 100px;
+        text-align: center;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-date {
+        right: -120px;
+    }
+
+    .timeline-item:nth-child(even) .timeline-date {
+        left: -120px;
+    }
+
+    .timeline-body h4 {
+        color: var(--text-primary);
+        margin-bottom: 10px;
+    }
+
+    .timeline-body h5 {
+        margin-bottom: 15px;
+    }
+
+    /* Profile Image Animation */
+    .profile-image img {
+        animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+        0%,
+        100% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-20px);
+        }
+    }
+
+    /* Responsive Timeline */
+    @media (max-width: 768px) {
+        .timeline::before {
+            left: 30px;
+        }
+
+        .timeline-content {
+            width: calc(100% - 60px);
+            margin-left: 60px !important;
+        }
+
+        .timeline-date {
+            position: relative;
+            left: 0 !important;
+            right: 0 !important;
+            margin-bottom: 10px;
+        }
+    }
+
+    /* Skill Item Styles */
+    .skill-item {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 20px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .skill-item:hover {
+        background: rgba(255, 255, 255, 0.08);
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+    </style>
+{% endblock %}

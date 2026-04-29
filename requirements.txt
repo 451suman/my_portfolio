@@ -1,0 +1,44 @@
+# Django Core
+Django==6.0.4
+djangorestframework==3.17.1
+djangorestframework-simplejwt==5.5.1
+django-cors-headers==4.9.0
+django-filter==25.2
+
+# WebSocket Support
+channels==4.3.2
+channels-redis==4.3.0
+
+# API Documentation
+drf-yasg==1.21.15
+
+# Environment Management
+python-decouple==3.8
+python-dotenv==1.2.2
+
+# File Uploads
+Pillow==12.2.0
+
+# Email Support (optional)
+# django-anymail==10.2  # For advanced email services
+
+# Development Tools
+django-debug-toolbar==4.4.6
+django-extensions==3.2.3
+
+# Testing
+pytest==8.3.3
+pytest-django==4.9.0
+coverage==7.6.9
+
+# Production Server
+gunicorn==23.0.0
+uvicorn==0.34.0
+
+# Security
+django-ratelimit==4.2.0
+
+# Additional utilities
+redis==7.4.0
+psycopg2-binary==2.9.10  # PostgreSQL adapter
+whitenoise==6.8.2  # Static file serving
