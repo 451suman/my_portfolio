@@ -98,6 +98,10 @@ class Project(models.Model):
         default=True,
         help_text="Show 'View Code' button that links to GitHub repository",
     )
+    show_code_button = models.BooleanField(
+        default=True,
+        help_text="Show 'View Code' button that links to GitHub repository",
+    )
 
     # Media
     cover_image = models.ImageField(upload_to="projects/covers/", blank=True, null=True)
