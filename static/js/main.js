@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initNavbar();
     initParticles();
     initScrollAnimations();
+    initThemeToggle();
 });
 
 // Navbar scroll effect
@@ -270,6 +271,58 @@ function initParticles() {
         resizeCanvas();
         initParticles();
     });
+}
+
+// Theme Toggle Functionality
+function initThemeToggle() {
+    const themeToggle = document.getElementById('themeToggle');
+    if (!themeToggle) {
+        console.log('Theme toggle button not found');
+        return;
+    }
+
+    const body = document.body;
+    const icon = themeToggle.querySelector('i');
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    console.log('Loading saved theme:', savedTheme);
+
+    // Remove existing theme classes
+    body.classList.remove('light-theme', 'dark-theme');
+
+    if (savedTheme === 'light') {
+        body.classList.add('light-theme');
+    } else {
+        body.classList.add('dark-theme');
+    }
+    updateToggleIcon(icon, savedTheme);
+
+    // Toggle theme on click
+    themeToggle.addEventListener('click', () => {
+        console.log('Theme toggle clicked');
+        const isLight = body.classList.contains('light-theme');
+        const newTheme = isLight ? 'dark' : 'light';
+        console.log('Switching to theme:', newTheme);
+
+        // Remove existing theme classes
+        body.classList.remove('light-theme', 'dark-theme');
+
+        // Add new theme class
+        if (newTheme === 'light') {
+            body.classList.add('light-theme');
+        } else {
+            body.classList.add('dark-theme');
+        }
+
+        localStorage.setItem('theme', newTheme);
+        updateToggleIcon(icon, newTheme);
+        console.log('Theme switched to:', newTheme);
+    });
+}
+
+function updateToggleIcon(icon, theme) {
+    icon.className = theme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
 }
 
 

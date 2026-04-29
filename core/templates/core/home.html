@@ -25,9 +25,9 @@
                         <h1 class="hero-title">
                             Hi, I'm
                             <br>
-                            <span class="typing-text">Suman Mushyakhwo</span>
+                            <span class="typing-text hero-name">Suman Mushyakhwo</span>
                             <br>
-                            <span class="typing-text-subtitle">Backend Developer</span>
+                            <span class="typing-text-subtitle">Professional Backend Developer</span>
                         </h1>
                         <p class="hero-subtitle">
                             Building robust APIs and scalable web applications with Django,
@@ -65,7 +65,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="hero-image text-center">
+                    <div class="text-center">
                         <div class="code-window">
                             <div class="window-header">
                                 <div class="window-controls">
@@ -259,6 +259,42 @@
     .typing-text-subtitle {
         color: var(--primary-color);
         font-weight: 300;
+    }
+
+    /* Hero Name Styling */
+    .hero-name {
+        font-size: clamp(2.5rem, 8vw, 4rem);
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        letter-spacing: -0.02em;
+        text-shadow: 0 0 30px rgba(99, 102, 241, 0.3);
+        animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+        from {
+            text-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+        }
+        to {
+            text-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+        }
+    }
+
+    /* Faster Profile Image Animation */
+    .profile-image-container {
+        animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(-15px);
+        }
     }
 
     /* Code Window Styles */
