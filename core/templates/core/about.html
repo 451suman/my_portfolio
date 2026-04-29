@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}About Me - Professional Backend Developer{% endblock %}
 {% block content %}
     <!-- About Section -->
@@ -32,36 +33,61 @@
                         <div class="social-links mb-4">
                             {% if profile.user.github_username %}
                                 <a href="https://github.com/{{ profile.user.github_username }}"
-                                   class="btn btn-outline-light btn-sm me-2"
-                                   target="_blank">
-                                    <i class="fab fa-github me-1"></i>GitHub
+                                   class="social-logo-link"
+                                   target="_blank"
+                                   title="GitHub">
+                                    <img src="{% static 'images/social/github-logo.svg' %}"
+                                         alt="GitHub"
+                                         class="social-logo"
+                                         width="40"
+                                         height="40">
                                 </a>
                             {% endif %}
                             {% if profile.user.linkedin_url %}
                                 <a href="{{ profile.user.linkedin_url }}"
-                                   class="btn btn-outline-light btn-sm me-2"
-                                   target="_blank">
-                                    <i class="fab fa-linkedin me-1"></i>LinkedIn
+                                   class="social-logo-link"
+                                   target="_blank"
+                                   title="LinkedIn">
+                                    <img src="{% static 'images/social/linkedin-logo.svg' %}"
+                                         alt="LinkedIn"
+                                         class="social-logo"
+                                         width="40"
+                                         height="40">
                                 </a>
                             {% endif %}
                             {% if profile.user.twitter_url %}
                                 <a href="{{ profile.user.twitter_url }}"
-                                   class="btn btn-outline-light btn-sm me-2"
-                                   target="_blank">
-                                    <i class="fab fa-twitter me-1"></i>Twitter
+                                   class="social-logo-link"
+                                   target="_blank"
+                                   title="Twitter">
+                                    <img src="{% static 'images/social/twitter-logo.svg' %}"
+                                         alt="Twitter"
+                                         class="social-logo"
+                                         width="40"
+                                         height="40">
                                 </a>
                             {% endif %}
                             {% if profile.user.website_url %}
                                 <a href="{{ profile.user.website_url }}"
-                                   class="btn btn-outline-light btn-sm me-2"
-                                   target="_blank">
-                                    <i class="fas fa-globe me-1"></i>Website
+                                   class="social-logo-link"
+                                   target="_blank"
+                                   title="Website">
+                                    <img src="{% static 'images/social/website-logo.svg' %}"
+                                         alt="Website"
+                                         class="social-logo"
+                                         width="40"
+                                         height="40">
                                 </a>
                             {% endif %}
                             {% if profile.user.email %}
                                 <a href="mailto:{{ profile.user.email }}"
-                                   class="btn btn-outline-light btn-sm">
-                                    <i class="fas fa-envelope me-1"></i>Email
+                                   class="social-logo-link"
+                                   title="Email">
+                                    <img src="{% static 'images/social/email-logo.svg' %}"
+                                         alt="Email"
+                                         class="social-logo"
+                                         width="40"
+                                         height="40">
                                 </a>
                             {% endif %}
                         </div>
