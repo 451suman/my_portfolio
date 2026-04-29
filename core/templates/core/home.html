@@ -1,77 +1,82 @@
 {% extends 'base.html' %}
-
 {% block title %}Home - Professional Backend Developer Portfolio{% endblock %}
-
 {% block content %}
-<!-- Hero Section -->
-<section class="hero-section">
-    <canvas id="particles-canvas"></canvas>
-    <div class="container">
-        <div class="row align-items-center min-vh-100">
-            <div class="col-lg-6 hero-content">
-                <div class="hero-content-inner">
-                    <!-- Profile Image -->
-                    <div class="text-center mb-4">
-                        <div class="profile-image-container">
-                            {% if profile_user.avatar %}
-                            <img src="{{ profile_user.avatar.url }}" class="rounded-circle profile-image"
-                                alt="{{ profile_user.get_full_name|default:profile_user.username }}">
-                            {% else %}
-                            <div class="profile-avatar-placeholder">
-                                <i class="fas fa-user fa-3x"></i>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <canvas id="particles-canvas"></canvas>
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6 hero-content">
+                    <div class="hero-content-inner">
+                        <!-- Profile Image -->
+                        <div class="text-center mb-4">
+                            <div class="profile-image-container">
+                                {% if profile_user.avatar %}
+                                    <img src="{{ profile_user.avatar.url }}"
+                                         class="rounded-circle profile-image"
+                                         alt="{{ profile_user.get_full_name|default:profile_user.username }}">
+                                {% else %}
+                                    <div class="profile-avatar-placeholder">
+                                        <i class="fas fa-user fa-3x"></i>
+                                    </div>
+                                {% endif %}
                             </div>
-                            {% endif %}
                         </div>
-                    </div>
-                    <h1 class="hero-title">
-                        Hi, I'm<br>
-                        <span class="typing-text">Suman Mushyakhwo</span><br>
-                        <span class="typing-text-subtitle">Backend Developer</span>
-                    </h1>
-                    <p class="hero-subtitle">
-                        Building robust APIs and scalable web applications with Django,
-                        Python, and modern technologies. Passionate about clean code,
-                        system design, and creating exceptional user experiences.
-                    </p>
-                    <div class="hero-buttons">
-                        <a href="{% url 'core:projects' %}" class="btn btn-primary btn-lg me-3">
-                            <i class="fas fa-folder-open me-2"></i>View Projects
-                        </a>
-                        <a href="{% url 'core:contact' %}" class="btn btn-outline-primary btn-lg">
-                            <i class="fas fa-envelope me-2"></i>Get In Touch
-                        </a>
-                    </div>
-
-                    <!-- Social Links -->
-                    <div class="mt-4">
-                        {% for social_link in social_links %}
-                        {% if social_link.platform == 'email' %}
-                        <a href="mailto:{{ social_link.url }}" class="text-light me-3 fs-4" target="_blank">
-                            <i class="{{ social_link.icon_class }}"></i>
-                        </a>
-                        {% else %}
-                        <a href="{{ social_link.url }}" class="text-light me-3 fs-4" target="_blank"
-                            rel="noopener noreferrer">
-                            <i class="{{ social_link.icon_class }}"></i>
-                        </a>
-                        {% endif %}
-                        {% endfor %}
+                        <h1 class="hero-title">
+                            Hi, I'm
+                            <br>
+                            <span class="typing-text">Suman Mushyakhwo</span>
+                            <br>
+                            <span class="typing-text-subtitle">Backend Developer</span>
+                        </h1>
+                        <p class="hero-subtitle">
+                            Building robust APIs and scalable web applications with Django,
+                            Python, and modern technologies. Passionate about clean code,
+                            system design, and creating exceptional user experiences.
+                        </p>
+                        <div class="hero-buttons">
+                            <a href="{% url 'core:projects' %}" class="btn btn-primary btn-lg me-3">
+                                <i class="fas fa-folder-open me-2"></i>View Projects
+                            </a>
+                            <a href="{% url 'core:contact' %}"
+                               class="btn btn-outline-primary btn-lg">
+                                <i class="fas fa-envelope me-2"></i>Get In Touch
+                            </a>
+                        </div>
+                        <!-- Social Links -->
+                        <div class="mt-4">
+                            {% for social_link in social_links %}
+                                {% if social_link.platform == 'email' %}
+                                    <a href="mailto:{{ social_link.url }}"
+                                       class="text-light me-3 fs-4"
+                                       target="_blank">
+                                        <i class="{{ social_link.icon_class }}"></i>
+                                    </a>
+                                {% else %}
+                                    <a href="{{ social_link.url }}"
+                                       class="text-light me-3 fs-4"
+                                       target="_blank"
+                                       rel="noopener noreferrer">
+                                        <i class="{{ social_link.icon_class }}"></i>
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="hero-image text-center">
-                    <div class="code-window">
-                        <div class="window-header">
-                            <div class="window-controls">
-                                <span class="window-control red"></span>
-                                <span class="window-control yellow"></span>
-                                <span class="window-control green"></span>
+                <div class="col-lg-6">
+                    <div class="hero-image text-center">
+                        <div class="code-window">
+                            <div class="window-header">
+                                <div class="window-controls">
+                                    <span class="window-control red"></span>
+                                    <span class="window-control yellow"></span>
+                                    <span class="window-control green"></span>
+                                </div>
+                                <div class="window-title">portfolio/views.py</div>
                             </div>
-                            <div class="window-title">portfolio/views.py</div>
-                        </div>
-                        <div class="window-content">
-                            <pre><code class="language-python"><span class="keyword">class</span> <span class="function">ProjectDetailView</span>(<span class="class">DetailView</span>):
+                            <div class="window-content">
+                                <pre><code class="language-python"><span class="keyword">class</span> <span class="function">ProjectDetailView</span>(<span class="class">DetailView</span>):
     <span class="string">"""Individual project detail page"""</span>
     model = <span class="class">Project</span>
     template_name = <span class="string">'core/project_detail.html'</span>
@@ -80,163 +85,162 @@
         context = <span class="keyword">super</span>().get_context_data(**kwargs)
         context[<span class="string">'images'</span>] = <span class="keyword">self</span>.object.images.all()
         <span class="keyword">return</span> context</code></pre>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-
-<!-- Featured Projects Section -->
-<section class="py-5 bg-dark">
-    <div class="container">
-        <div class="text-center mb-5 fade-in">
-            <h2 class="display-4 fw-bold mb-3">Featured Projects</h2>
-            <p class="lead text-muted">Showcasing my best work in web development and system design</p>
-        </div>
-
-        <div class="row g-4">
-            {% for project in featured_projects %}
-            <div class="col-md-6 col-lg-4 fade-in" data-animation-delay="{{ forloop.counter0 }}">
-                <div class="card project-card h-100">
-                    {% if project.cover_image %}
-                    <img src="{{ project.cover_image.url }}" class="card-img-top" alt="{{ project.title }}">
-                    {% else %}
-                    <div class="card-img-top d-flex align-items-center justify-content-center bg-secondary">
-                        <i class="fas fa-code fa-3x text-muted"></i>
-                    </div>
-                    {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title">{{ project.title }}</h5>
-                        <p class="card-text text-muted">{{ project.short_description|truncatewords:15 }}</p>
-                        <div class="mb-3">
-                            {% for skill in project.skills.all|slice:":3" %}
-                            <span class="badge bg-primary me-1">{{ skill.name }}</span>
-                            {% endfor %}
-                        </div>
-                        <a href="{% url 'core:project_detail' project.slug %}" class="btn btn-outline-primary btn-sm">
-                            View Details <i class="fas fa-arrow-right ms-1"></i>
-                        </a>
-                    </div>
-                </div>
+    </section>
+    <!-- Featured Projects Section -->
+    <section class="py-5 bg-dark">
+        <div class="container">
+            <div class="text-center mb-5 fade-in">
+                <h2 class="display-4 fw-bold mb-3">Featured Projects</h2>
+                <p class="lead text-muted">Showcasing my best work in web development and system design</p>
             </div>
-            {% empty %}
-            <div class="col-12 text-center">
-                <p class="text-muted">No featured projects yet. Check back soon!</p>
-            </div>
-            {% endfor %}
-        </div>
-
-        <div class="text-center mt-4">
-            <a href="{% url 'core:projects' %}" class="btn btn-primary">
-                View All Projects <i class="fas fa-arrow-right ms-2"></i>
-            </a>
-        </div>
-    </div>
-</section>
-
-<!-- Skills Section -->
-<section class="py-5" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);">
-    <div class="container">
-        <div class="text-center mb-5 fade-in">
-            <h2 class="display-4 fw-bold mb-3">Technical Skills</h2>
-            <p class="lead text-muted">Technologies and frameworks I work with</p>
-        </div>
-
-        <div class="row">
-            {% for skill in skills %}
-            <div class="col-md-6 col-lg-4 mb-4 fade-in" data-animation-delay="{{ forloop.counter0 }}">
-                <div class="skill-item">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="fw-semibold">{{ skill.name }}</span>
-                        <span class="text-muted">{{ skill.proficiency_level }}%</span>
-                    </div>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-width="{{ skill.proficiency_level }}%"></div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-
-<!-- Latest Blog Posts Section -->
-<section class="py-5 bg-dark">
-    <div class="container">
-        <div class="text-center mb-5 fade-in">
-            <h2 class="display-4 fw-bold mb-3">Latest Blog Posts</h2>
-            <p class="lead text-muted">Thoughts on development, tutorials, and industry insights</p>
-        </div>
-
-        <div class="row g-4">
-            {% for post in latest_posts %}
-            <div class="col-md-6 col-lg-4 fade-in" data-animation-delay="{{ forloop.counter0 }}">
-                <div class="card h-100">
-                    {% if post.featured_image %}
-                    <img src="{{ post.featured_image.url }}" class="card-img-top" alt="{{ post.title }}">
-                    {% else %}
-                    <div class="card-img-top d-flex align-items-center justify-content-center bg-secondary">
-                        <i class="fas fa-blog fa-3x text-muted"></i>
-                    </div>
-                    {% endif %}
-                    <div class="card-body">
-                        <div class="mb-2">
-                            {% if post.category %}
-                            <span class="badge bg-primary me-2">{{ post.category.name }}</span>
+            <div class="row g-4">
+                {% for project in featured_projects %}
+                    <div class="col-md-6 col-lg-4 fade-in"
+                         data-animation-delay="{{ forloop.counter0 }}">
+                        <div class="card project-card h-100">
+                            {% if project.cover_image %}
+                                <img src="{{ project.cover_image.url }}"
+                                     class="card-img-top"
+                                     alt="{{ project.title }}">
+                            {% else %}
+                                <div class="card-img-top d-flex align-items-center justify-content-center bg-secondary">
+                                    <i class="fas fa-code fa-3x text-muted"></i>
+                                </div>
                             {% endif %}
-                            <small class="text-muted">{{ post.published_at|date:"M d, Y" }}</small>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ project.title }}</h5>
+                                <p class="card-text text-muted">{{ project.short_description|truncatewords:15 }}</p>
+                                <div class="mb-3">
+                                    {% for skill in project.skills.all|slice:":3" %}
+                                        <span class="badge bg-primary me-1">{{ skill.name }}</span>
+                                    {% endfor %}
+                                </div>
+                                <a href="{% url 'core:project_detail' project.slug %}"
+                                   class="btn btn-outline-primary btn-sm">
+                                    View Details <i class="fas fa-arrow-right ms-1"></i>
+                                </a>
+                            </div>
                         </div>
-                        <h5 class="card-title">{{ post.title }}</h5>
-                        <p class="card-text text-muted">{{ post.excerpt|truncatewords:20 }}</p>
-                        <a href="{% url 'core:blog_detail' post.slug %}" class="btn btn-outline-primary btn-sm">
-                            Read More <i class="fas fa-arrow-right ms-1"></i>
+                    </div>
+                {% empty %}
+                    <div class="col-12 text-center">
+                        <p class="text-muted">No featured projects yet. Check back soon!</p>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="text-center mt-4">
+                <a href="{% url 'core:projects' %}" class="btn btn-primary">
+                    View All Projects <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- Skills Section -->
+    <section class="py-5"
+             style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
+        <div class="container">
+            <div class="text-center mb-5 fade-in">
+                <h2 class="display-4 fw-bold mb-3">Technical Skills</h2>
+                <p class="lead text-muted">Technologies and frameworks I work with</p>
+            </div>
+            <div class="row">
+                {% for skill in skills %}
+                    <div class="col-md-6 col-lg-4 mb-4 fade-in"
+                         data-animation-delay="{{ forloop.counter0 }}">
+                        <div class="skill-item">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="fw-semibold">{{ skill.name }}</span>
+                                <span class="text-muted">{{ skill.proficiency_level }}%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="{{ skill.proficiency_level }}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <!-- Latest Blog Posts Section -->
+    <section class="py-5 bg-dark">
+        <div class="container">
+            <div class="text-center mb-5 fade-in">
+                <h2 class="display-4 fw-bold mb-3">Latest Blog Posts</h2>
+                <p class="lead text-muted">Thoughts on development, tutorials, and industry insights</p>
+            </div>
+            <div class="row g-4">
+                {% for post in latest_posts %}
+                    <div class="col-md-6 col-lg-4 fade-in"
+                         data-animation-delay="{{ forloop.counter0 }}">
+                        <div class="card h-100">
+                            {% if post.featured_image %}
+                                <img src="{{ post.featured_image.url }}"
+                                     class="card-img-top"
+                                     alt="{{ post.title }}">
+                            {% else %}
+                                <div class="card-img-top d-flex align-items-center justify-content-center bg-secondary">
+                                    <i class="fas fa-blog fa-3x text-muted"></i>
+                                </div>
+                            {% endif %}
+                            <div class="card-body">
+                                <div class="mb-2">
+                                    {% if post.category %}<span class="badge bg-primary me-2">{{ post.category.name }}</span>{% endif %}
+                                    <small class="text-muted">{{ post.published_at|date:"M d, Y" }}</small>
+                                </div>
+                                <h5 class="card-title">{{ post.title }}</h5>
+                                <p class="card-text text-muted">{{ post.excerpt|truncatewords:20 }}</p>
+                                <a href="{% url 'core:blog_detail' post.slug %}"
+                                   class="btn btn-outline-primary btn-sm">
+                                    Read More <i class="fas fa-arrow-right ms-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="col-12 text-center">
+                        <p class="text-muted">No blog posts yet. Check back soon!</p>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="text-center mt-4">
+                <a href="{% url 'core:blog' %}" class="btn btn-primary">
+                    View All Posts <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- Call to Action Section -->
+    <section class="py-5 text-center"
+             style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 fade-in">
+                    <h2 class="display-4 fw-bold text-white mb-4">Let's Build Something Amazing Together</h2>
+                    <p class="lead text-white-50 mb-4">
+                        I'm always interested in hearing about new projects and opportunities.
+                        Whether you have a question or just want to say hi, feel free to reach out!
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="{% url 'core:contact' %}" class="btn btn-light btn-lg me-3">
+                            <i class="fas fa-paper-plane me-2"></i>Send Message
+                        </a>
+                        <a href="{% url 'core:projects' %}" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-briefcase me-2"></i>View Portfolio
                         </a>
                     </div>
                 </div>
             </div>
-            {% empty %}
-            <div class="col-12 text-center">
-                <p class="text-muted">No blog posts yet. Check back soon!</p>
-            </div>
-            {% endfor %}
         </div>
-
-        <div class="text-center mt-4">
-            <a href="{% url 'core:blog' %}" class="btn btn-primary">
-                View All Posts <i class="fas fa-arrow-right ms-2"></i>
-            </a>
-        </div>
-    </div>
-</section>
-
-<!-- Call to Action Section -->
-<section class="py-5 text-center" style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 fade-in">
-                <h2 class="display-4 fw-bold text-white mb-4">Let's Build Something Amazing Together</h2>
-                <p class="lead text-white-50 mb-4">
-                    I'm always interested in hearing about new projects and opportunities.
-                    Whether you have a question or just want to say hi, feel free to reach out!
-                </p>
-                <div class="hero-buttons">
-                    <a href="{% url 'core:contact' %}" class="btn btn-light btn-lg me-3">
-                        <i class="fas fa-paper-plane me-2"></i>Send Message
-                    </a>
-                    <a href="{% url 'core:projects' %}" class="btn btn-outline-light btn-lg">
-                        <i class="fas fa-briefcase me-2"></i>View Portfolio
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+    </section>
 {% endblock %}
-
 {% block extra_css %}
-<style>
+    <style>
     /* Profile Image Styles */
     .profile-image-container {
         display: inline-block;
@@ -363,11 +367,10 @@
         transform: translateY(-5px);
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     }
-</style>
+    </style>
 {% endblock %}
-
 {% block extra_js %}
-<script>
+    <script>
     // Additional animations for home page
     document.addEventListener('DOMContentLoaded', function () {
         // Code window typing effect
@@ -389,5 +392,5 @@
             setTimeout(typeCode, 2000);
         }
     });
-</script>
+    </script>
 {% endblock %}
