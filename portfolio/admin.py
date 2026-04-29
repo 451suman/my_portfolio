@@ -39,6 +39,7 @@ class ProjectAdmin(admin.ModelAdmin):
         "title",
         "slug",
         "owner",
+        "priority",
         "status",
         "featured",
         "category",
@@ -50,11 +51,12 @@ class ProjectAdmin(admin.ModelAdmin):
     filter_horizontal = ["skills"]
     inlines = [ProjectImageInline]
     ordering = ["-created_at"]
+    list_editable = ["priority", "featured"]
 
     fieldsets = (
         (
             "Basic Information",
-            {"fields": ("title", "slug", "owner", "status", "featured")},
+            {"fields": ("title", "slug", "owner", "priority", "status", "featured")},
         ),
         (
             "Content",
@@ -69,7 +71,15 @@ class ProjectAdmin(admin.ModelAdmin):
         ),
         (
             "Links",
-            {"fields": ("github_url", "live_demo_url", "project_url", "cover_image")},
+            {
+                "fields": (
+                    "github_url",
+                    "show_code_button",
+                    "live_demo_url",
+                    "project_url",
+                    "cover_image",
+                )
+            },
         ),
         ("Classification", {"fields": ("category", "skills")}),
         (
@@ -93,6 +103,12 @@ class ProjectAdmin(admin.ModelAdmin):
             .select_related("owner", "category")
             .prefetch_related("skills")
         )
+
+    def save_model(self, request, obj, form, change):
+        # Ensure priority is a positive integer
+        if obj.priority is None or obj.priority < 1:
+            obj.priority = 100  # Default priority
+        super().save_model(request, obj, form, change)
 
 
 @admin.register(ProjectImage)

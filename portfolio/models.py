@@ -77,6 +77,10 @@ class Project(models.Model):
         max_length=20, choices=STATUS_CHOICES, default="completed"
     )
     featured = models.BooleanField(default=False, help_text="Show in featured projects")
+    priority = models.PositiveIntegerField(
+        default=100,
+        help_text="Priority for ordering (1 = highest priority, higher numbers = lower priority). Duplicates allowed.",
+    )
 
     # Technical details
     architecture_explanation = models.TextField(
@@ -90,6 +94,10 @@ class Project(models.Model):
     github_url = models.URLField(blank=True)
     live_demo_url = models.URLField(blank=True)
     project_url = models.URLField(blank=True, help_text="Main project website")
+    show_code_button = models.BooleanField(
+        default=True,
+        help_text="Show 'View Code' button that links to GitHub repository",
+    )
 
     # Media
     cover_image = models.ImageField(upload_to="projects/covers/", blank=True, null=True)
@@ -117,9 +125,9 @@ class Project(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ["-featured", "-created_at"]
+        ordering = ["priority", "-featured", "-created_at"]
         indexes = [
-            models.Index(fields=["featured", "status"]),
+            models.Index(fields=["priority", "featured", "status"]),
             models.Index(fields=["owner"]),
         ]
 
