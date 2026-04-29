@@ -30,7 +30,7 @@
                         </div>
                         <h1 class="display-4 fw-bold mb-3 text-white">{{ profile.user.first_name }} {{ profile.user.last_name }}</h1>
                         <p class="lead text-info mb-4">Professional Backend Developer & System Architect</p>
-                        <div class="social-links mb-4">
+                        <div class="social-links mb-4 d-flex justify-content-center gap-3">
                             {% if profile.user.github_username %}
                                 <a href="https://github.com/{{ profile.user.github_username }}"
                                    class="social-logo-link"
