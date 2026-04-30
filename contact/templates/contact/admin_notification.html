@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Contact Message</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+        }
+        .content {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 0 0 10px 10px;
+        }
+        .field {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+        }
+        .field-label {
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 5px;
+        }
+        .priority-high { border-left-color: #dc3545; }
+        .priority-urgent { border-left-color: #dc3545; }
+        .priority-medium { border-left-color: #ffc107; }
+        .priority-low { border-left-color: #28a745; }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📬 New Contact Message</h1>
+        <p>You have received a new message from your portfolio website</p>
+    </div>
+    
+    <div class="content">
+        <div class="field">
+            <div class="field-label">From:</div>
+            <div>{{ contact_message.name }} ({{ contact_message.email }})</div>
+            {% if contact_message.phone %}
+            <div>📱 {{ contact_message.phone }}</div>
+            {% endif %}
+            {% if contact_message.company %}
+            <div>🏢 {{ contact_message.company }}</div>
+            {% endif %}
+        </div>
+
+        <div class="field">
+            <div class="field-label">Subject:</div>
+            <div>{{ contact_message.subject }}</div>
+        </div>
+
+        <div class="field">
+            <div class="field-label">Inquiry Type:</div>
+            <div>{{ contact_message.get_inquiry_type_display }}</div>
+        </div>
+
+        <div class="field priority-{{ contact_message.priority }}">
+            <div class="field-label">Priority:</div>
+            <div>{{ contact_message.get_priority_display }}</div>
+        </div>
+
+        <div class="field">
+            <div class="field-label">Message:</div>
+            <div style="white-space: pre-wrap;">{{ contact_message.message }}</div>
+        </div>
+
+        {% if contact_message.website %}
+        <div class="field">
+            <div class="field-label">Website:</div>
+            <div><a href="{{ contact_message.website }}">{{ contact_message.website }}</a></div>
+        </div>
+        {% endif %}
+
+        <div class="field">
+            <div class="field-label">Received:</div>
+            <div>{{ contact_message.created_at|date:"F d, Y H:i" }}</div>
+        </div>
+
+        {% if contact_message.ip_address %}
+        <div class="field">
+            <div class="field-label">IP Address:</div>
+            <div>{{ contact_message.ip_address }}</div>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="footer">
+        <p>This message was sent from your portfolio contact form.</p>
+        <p>Please respond in a timely manner to maintain good communication.</p>
+    </div>
+</body>
+</html>

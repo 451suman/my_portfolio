@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Contact Message</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            line-height: 1.6; 
+            color: #333; 
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            padding: 0; 
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .header { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            color: white; 
+            padding: 30px 20px; 
+            text-align: center; 
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 300;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+        }
+        .content { 
+            padding: 30px 20px; 
+            background: #ffffff; 
+        }
+        .field { 
+            margin-bottom: 20px; 
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+        }
+        .label { 
+            font-weight: bold; 
+            color: #667eea; 
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .field-value {
+            font-size: 16px;
+            color: #333;
+            word-break: break-word;
+        }
+        .message-field {
+            background: #e8f4fd;
+            border-left-color: #2196f3;
+        }
+        .footer { 
+            text-align: center; 
+            padding: 30px 20px; 
+            color: #666; 
+            font-size: 12px; 
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+        }
+        .priority-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .priority-high { background: #ffebee; color: #c62828; }
+        .priority-medium { background: #fff3e0; color: #ef6c00; }
+        .priority-low { background: #e8f5e8; color: #2e7d32; }
+        .priority-urgent { background: #fce4ec; color: #ad1457; }
+        .subject-line {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📬 New Contact Message</h1>
+            <p>You have received a new message from your portfolio website</p>
+        </div>
+        <div class="content">
+            <div class="subject-line">
+                {{ contact_message.subject }}
+            </div>
+            
+            <div class="field">
+                <span class="label">👤 Name:</span>
+                <span class="field-value">{{ contact_message.name }}</span>
+            </div>
+            
+            <div class="field">
+                <span class="label">📧 Email:</span>
+                <span class="field-value">{{ contact_message.email }}</span>
+            </div>
+            
+            {% if contact_message.phone %}
+            <div class="field">
+                <span class="label">📱 Phone:</span>
+                <span class="field-value">{{ contact_message.phone }}</span>
+            </div>
+            {% endif %}
+            
+            {% if contact_message.company %}
+            <div class="field">
+                <span class="label">🏢 Company:</span>
+                <span class="field-value">{{ contact_message.company }}</span>
+            </div>
+            {% endif %}
+            
+            {% if contact_message.website %}
+            <div class="field">
+                <span class="label">🌐 Website:</span>
+                <span class="field-value">{{ contact_message.website }}</span>
+            </div>
+            {% endif %}
+            
+            <div class="field">
+                <span class="label">📋 Inquiry Type:</span>
+                <span class="field-value">{{ contact_message.get_inquiry_type_display }}</span>
+            </div>
+            
+            <div class="field">
+                <span class="label">🚨 Priority:</span>
+                <span class="field-value">
+                    <span class="priority-badge priority-{{ contact_message.priority }}">
+                        {{ contact_message.get_priority_display }}
+                    </span>
+                </span>
+            </div>
+            
+            <div class="field message-field">
+                <span class="label">💬 Message:</span>
+                <span class="field-value">{{ contact_message.message|linebreaks }}</span>
+            </div>
+            
+            <div class="field">
+                <span class="label">📅 Received:</span>
+                <span class="field-value">{{ contact_message.created_at|date:"F j, Y, g:i a" }}</span>
+            </div>
+            
+            {% if contact_message.ip_address %}
+            <div class="field">
+                <span class="label">🌍 IP Address:</span>
+                <span class="field-value">{{ contact_message.ip_address }}</span>
+            </div>
+            {% endif %}
+        </div>
+        <div class="footer">
+            <p><strong>📧 This message was sent from your portfolio contact form.</strong></p>
+            <p>Please respond to the sender at: <a href="mailto:{{ contact_message.email }}">{{ contact_message.email }}</a></p>
+            <p style="margin-top: 20px; font-size: 11px; color: #999;">
+                Generated automatically on {{ contact_message.created_at|date:"Y-m-d H:i" }}
+            </p>
+        </div>
+    </div>
+</body>
+</html>
