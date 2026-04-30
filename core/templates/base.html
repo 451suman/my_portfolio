@@ -115,21 +115,22 @@
                     </div>
                     <div class="col-md-6 text-md-end">
                         <div class="social-links">
-                            <a href="https://github.com/sumanmushyakhwo"
-                               class="text-light me-3"
-                               target="_blank"
-                               rel="noopener noreferrer"><i class="fab fa-github fa-lg"></i></a>
-                            <a href="https://linkedin.com/in/sumanmushyakhwo"
-                               class="text-light me-3"
-                               target="_blank"
-                               rel="noopener noreferrer"><i class="fab fa-linkedin fa-lg"></i></a>
-                            <a href="https://twitter.com/sumanmushyakhwo"
-                               class="text-light me-3"
-                               target="_blank"
-                               rel="noopener noreferrer"><i class="fab fa-twitter fa-lg"></i></a>
-                            <a href="mailto:suman.mushyakhwo@example.com"
-                               class="text-light"
-                               target="_blank"><i class="fas fa-envelope fa-lg"></i></a>
+                            {% for social_link in social_links %}
+                                {% if social_link.platform == 'email' %}
+                                    <a href="mailto:{{ social_link.url }}"
+                                       class="text-light me-3"
+                                       target="_blank">
+                                        <i class="{{ social_link.icon_class }} fa-lg"></i>
+                                    </a>
+                                {% else %}
+                                    <a href="{{ social_link.url }}"
+                                       class="text-light me-3"
+                                       target="_blank"
+                                       rel="noopener noreferrer">
+                                        <i class="{{ social_link.icon_class }} fa-lg"></i>
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

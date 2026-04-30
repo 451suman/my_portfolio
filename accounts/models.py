@@ -12,10 +12,6 @@ class User(AbstractUser):
     is_developer = models.BooleanField(default=True)
     bio = models.TextField(max_length=500, blank=True)
     avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)
-    github_username = models.CharField(max_length=50, blank=True)
-    linkedin_url = models.URLField(blank=True)
-    twitter_url = models.URLField(blank=True)
-    website_url = models.URLField(blank=True)
     location = models.CharField(max_length=100, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -34,12 +30,6 @@ class User(AbstractUser):
     @property
     def full_name(self):
         return f"{self.first_name} {self.last_name}".strip()
-
-    @property
-    def github_profile_url(self):
-        if self.github_username:
-            return f"https://github.com/{self.github_username}"
-        return ""
 
 
 class Profile(models.Model):

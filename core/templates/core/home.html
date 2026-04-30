@@ -216,21 +216,22 @@
         </div>
     </section>
     <!-- Call to Action Section -->
-    <section class="py-5 text-center"
-             style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)">
+    <section class="cta-section py-5 text-center">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-lg-8 fade-in">
+                <div class="col-lg-8 col-md-10 fade-in">
                     <h2 class="display-4 fw-bold text-white mb-4">Let's Build Something Amazing Together</h2>
-                    <p class="lead text-white-50 mb-4">
+                    <p class="lead text-white-50 mb-5">
                         I'm always interested in hearing about new projects and opportunities.
                         Whether you have a question or just want to say hi, feel free to reach out!
                     </p>
-                    <div class="hero-buttons">
-                        <a href="{% url 'core:contact' %}" class="btn btn-light btn-lg me-3">
+                    <div class="hero-buttons d-flex flex-column flex-md-row justify-content-center gap-3">
+                        <a href="{% url 'core:contact' %}"
+                           class="btn btn-primary btn-lg px-4 py-3 cta-primary-btn">
                             <i class="fas fa-paper-plane me-2"></i>Send Message
                         </a>
-                        <a href="{% url 'core:projects' %}" class="btn btn-outline-light btn-lg">
+                        <a href="{% url 'core:projects' %}"
+                           class="btn btn-light btn-lg px-4 py-3 cta-secondary-btn">
                             <i class="fas fa-briefcase me-2"></i>View Portfolio
                         </a>
                     </div>
@@ -259,6 +260,47 @@
     .typing-text-subtitle {
         color: var(--primary-color);
         font-weight: 300;
+    }
+
+    /* CTA Section Styling */
+    .cta-section {
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    }
+
+    .hero-buttons .btn {
+        min-width: 160px;
+        transition: all 0.3s ease;
+        font-weight: 500;
+        border-radius: 8px;
+    }
+
+    .cta-primary-btn {
+        background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%) !important;
+        color: #6366f1 !important;
+        border: none;
+        box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+    }
+
+    .cta-primary-btn:hover {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+        color: #5b21b6 !important;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+    }
+
+    .cta-secondary-btn {
+        background: rgba(255, 255, 255, 0.1) !important;
+        color: #fff !important;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(10px);
+    }
+
+    .cta-secondary-btn:hover {
+        background: rgba(255, 255, 255, 0.2) !important;
+        color: #fff !important;
+        border-color: rgba(255, 255, 255, 0.5);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
     }
 
     /* Hero Name Styling */

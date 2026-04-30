@@ -183,8 +183,6 @@ def calculate_profile_completion(user):
         user.last_name,
         user.bio,
         user.avatar,
-        user.github_username,
-        user.linkedin_url,
         user.location,
     ]
 

@@ -44,7 +44,8 @@ class HomeView(TemplateView):
 
         try:
             # Get skills for display
-            context["skills"] = Skill.objects.all().order_by("name")[:12]
+            skills = Skill.objects.all().order_by("name")[:12]
+            context["skills"] = skills
         except Exception:
             context["skills"] = []
 
@@ -67,9 +68,8 @@ class HomeView(TemplateView):
             # Get social media links
             from portfolio.models import SocialLink
 
-            context["social_links"] = SocialLink.objects.filter(
-                is_active=True
-            ).order_by("display_order")
+            links = SocialLink.objects.filter(is_active=True).order_by("display_order")
+            context["social_links"] = links
         except Exception:
             context["social_links"] = []
 
@@ -286,10 +286,6 @@ class BlogDetailView(DetailView):
             if self.object.author:
                 author = self.object.author
                 # Add fallback values for missing fields
-                if not hasattr(author, "github_username"):
-                    author.github_username = ""
-                if not hasattr(author, "linkedin_url"):
-                    author.linkedin_url = ""
                 if not hasattr(author, "bio"):
                     author.bio = ""
 
@@ -399,18 +395,6 @@ class ProfileManagementView(TemplateView):
             superuser.first_name = request.POST.get("first_name", superuser.first_name)
             superuser.last_name = request.POST.get("last_name", superuser.last_name)
             superuser.bio = request.POST.get("bio", superuser.bio)
-            superuser.github_username = request.POST.get(
-                "github_username", superuser.github_username
-            )
-            superuser.linkedin_url = request.POST.get(
-                "linkedin_url", superuser.linkedin_url
-            )
-            superuser.twitter_url = request.POST.get(
-                "twitter_url", superuser.twitter_url
-            )
-            superuser.website_url = request.POST.get(
-                "website_url", superuser.website_url
-            )
             superuser.location = request.POST.get("location", superuser.location)
 
             # Handle avatar upload

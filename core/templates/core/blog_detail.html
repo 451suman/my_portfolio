@@ -53,11 +53,6 @@
                     <div class="social-sharing mt-5">
                         <h4>Share this post</h4>
                         <div class="d-flex gap-2">
-                            <a href="https://twitter.com/intent/tweet?text={{ post.title|urlencode }}&url={{ request.build_absolute_uri }}"
-                               class="btn btn-outline-primary btn-sm"
-                               target="_blank">
-                                <i class="fab fa-twitter"></i> Twitter
-                            </a>
                             <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}"
                                class="btn btn-outline-primary btn-sm"
                                target="_blank">
@@ -109,24 +104,18 @@
                             {% endif %}
                         </p>
                         {% if post.author %}
-                            {% if post.author.github_username or post.author.linkedin_url %}
-                                <div class="author-social">
-                                    {% if post.author.github_username %}
-                                        <a href="https://github.com/{{ post.author.github_username }}"
+                            <div class="author-social">
+                                {% for social_link in social_links %}
+                                    {% if social_link.platform != 'email' %}
+                                        <a href="{{ social_link.url }}"
                                            class="text-light me-2"
-                                           target="_blank">
-                                            <i class="fab fa-github"></i>
+                                           target="_blank"
+                                           rel="noopener noreferrer">
+                                            <i class="{{ social_link.icon_class }}"></i>
                                         </a>
                                     {% endif %}
-                                    {% if post.author.linkedin_url %}
-                                        <a href="{{ post.author.linkedin_url }}"
-                                           class="text-light me-2"
-                                           target="_blank">
-                                            <i class="fab fa-linkedin"></i>
-                                        </a>
-                                    {% endif %}
-                                </div>
-                            {% endif %}
+                                {% endfor %}
+                            </div>
                         {% endif %}
                     </div>
                     <!-- Related Posts -->

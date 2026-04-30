@@ -98,13 +98,16 @@
                                 <i class="fas fa-envelope fa-lg text-primary me-3"></i>
                                 <div>
                                     <h6 class="mb-0">Email</h6>
-                                    {% if profile_user.email %}
-                                        <a href="mailto:{{ profile_user.email }}"
-                                           class="text-decoration-none text-white">{{
-                                        profile_user.email }}</a>
-                                    {% else %}
+                                    {% for social_link in social_links %}
+                                        {% if social_link.platform == 'email' %}
+                                            <a href="mailto:{{ social_link.url }}"
+                                               class="text-decoration-none text-white">{{
+                                            social_link.url }}</a>
+                                            {% break %}
+                                        {% endif %}
+                                    {% empty %}
                                         <span class="text-white">Email not available</span>
-                                    {% endif %}
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
@@ -137,131 +140,114 @@
                         <div class="contact-item mb-4">
                             <h4 class="mb-3">Social Media</h4>
                             <div class="social-links">
-                                {% if profile_user.github_username %}
-                                    <a href="https://github.com/{{ profile_user.github_username }}"
-                                       class="text-light me-3 fs-4"
-                                       target="_blank">
-                                        <i class="fab fa-github"></i>
-                                    </a>
-                                {% endif %}
-                                {% if profile_user.linkedin_url %}
-                                    <a href="{{ profile_user.linkedin_url }}"
-                                       class="text-light me-3 fs-4"
-                                       target="_blank">
-                                        <i class="fab fa-linkedin"></i>
-                                    </a>
-                                {% endif %}
-                                {% if profile_user.twitter_url %}
-                                    <a href="{{ profile_user.twitter_url }}"
-                                       class="text-light me-3 fs-4"
-                                       target="_blank">
-                                        <i class="fab fa-twitter"></i>
-                                    </a>
-                                {% endif %}
-                                {% if profile_user.website_url %}
-                                    <a href="{{ profile_user.website_url }}"
-                                       class="text-light fs-4"
-                                       target="_blank">
-                                        <i class="fas fa-globe"></i>
-                                    </a>
-                                {% endif %}
+                                {% for social_link in social_links %}
+                                    {% if social_link.platform != 'email' %}
+                                        <a href="{{ social_link.url }}"
+                                           class="text-light me-3 fs-4"
+                                           target="_blank"
+                                           rel="noopener noreferrer">
+                                            <i class="{{ social_link.icon_class }}"></i>
+                                        </a>
+                                    {% endif %}
+                                {% endfor %}
                             </div>
                         </div>
-                        <div class="contact-item">
-                            <h4 class="mb-3">Response Time</h4>
-                            <p class="text-white">
-                                I typically respond to messages within 24-48 hours. For urgent inquiries, please mark your
-                                message as high priority.
-                            </p>
-                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <h4 class="mb-3">Response Time</h4>
+                        <p class="text-white">
+                            I typically respond to messages within 24-48 hours. For urgent inquiries, please mark your
+                            message as high priority.
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- FAQ Section -->
-    <section class="py-5 bg-dark">
-        <div class="container">
-            <div class="text-center mb-5 fade-in">
-                <h2 class="display-5 fw-bold mb-3">Frequently Asked Questions</h2>
-                <p class="lead text-muted">Common questions about my work and services</p>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="accordion" id="faqAccordion">
-                        <div class="accordion-item fade-in">
-                            <h2 class="accordion-header" id="faq1">
-                                <button class="accordion-button"
-                                        type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#collapse1">What services do you offer?</button>
-                            </h2>
-                            <div id="collapse1"
-                                 class="accordion-collapse collapse show"
-                                 data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    I offer a range of backend development services including API development, system
-                                    architecture, database design, and full-stack web development. I specialize in Django,
-                                    Python, and modern web technologies.
-                                </div>
+    </div>
+</section>
+<!-- FAQ Section -->
+<section class="py-5 bg-dark">
+    <div class="container">
+        <div class="text-center mb-5 fade-in">
+            <h2 class="display-5 fw-bold mb-3">Frequently Asked Questions</h2>
+            <p class="lead text-muted">Common questions about my work and services</p>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item fade-in">
+                        <h2 class="accordion-header" id="faq1">
+                            <button class="accordion-button"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapse1">What services do you offer?</button>
+                        </h2>
+                        <div id="collapse1"
+                             class="accordion-collapse collapse show"
+                             data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                I offer a range of backend development services including API development, system
+                                architecture, database design, and full-stack web development. I specialize in Django,
+                                Python, and modern web technologies.
                             </div>
                         </div>
-                        <div class="accordion-item fade-in">
-                            <h2 class="accordion-header" id="faq2">
-                                <button class="accordion-button collapsed"
-                                        type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#collapse2">What is your typical project timeline?</button>
-                            </h2>
-                            <div id="collapse2"
-                                 class="accordion-collapse collapse"
-                                 data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    Project timelines vary depending on complexity and scope. Small projects typically take
-                                    2-4 weeks, while larger applications may take 2-3 months. I'll provide a detailed
-                                    timeline during our initial consultation.
-                                </div>
+                    </div>
+                    <div class="accordion-item fade-in">
+                        <h2 class="accordion-header" id="faq2">
+                            <button class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapse2">What is your typical project timeline?</button>
+                        </h2>
+                        <div id="collapse2"
+                             class="accordion-collapse collapse"
+                             data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Project timelines vary depending on complexity and scope. Small projects typically take
+                                2-4 weeks, while larger applications may take 2-3 months. I'll provide a detailed
+                                timeline during our initial consultation.
                             </div>
                         </div>
-                        <div class="accordion-item fade-in">
-                            <h2 class="accordion-header" id="faq3">
-                                <button class="accordion-button collapsed"
-                                        type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#collapse3">Do you work with startups?</button>
-                            </h2>
-                            <div id="collapse3"
-                                 class="accordion-collapse collapse"
-                                 data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    Absolutely! I love working with startups and helping them build scalable, maintainable
-                                    applications from the ground up. I understand the unique challenges and requirements of
-                                    early-stage companies.
-                                </div>
+                    </div>
+                    <div class="accordion-item fade-in">
+                        <h2 class="accordion-header" id="faq3">
+                            <button class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapse3">Do you work with startups?</button>
+                        </h2>
+                        <div id="collapse3"
+                             class="accordion-collapse collapse"
+                             data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Absolutely! I love working with startups and helping them build scalable, maintainable
+                                applications from the ground up. I understand the unique challenges and requirements of
+                                early-stage companies.
                             </div>
                         </div>
-                        <div class="accordion-item fade-in">
-                            <h2 class="accordion-header" id="faq4">
-                                <button class="accordion-button collapsed"
-                                        type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#collapse4">What is your pricing structure?</button>
-                            </h2>
-                            <div id="collapse4"
-                                 class="accordion-collapse collapse"
-                                 data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    I offer flexible pricing options including hourly rates, project-based pricing, and
-                                    retainer agreements. Rates vary based on project complexity and duration. Let's discuss
-                                    your specific needs to determine the best approach.
-                                </div>
+                    </div>
+                    <div class="accordion-item fade-in">
+                        <h2 class="accordion-header" id="faq4">
+                            <button class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapse4">What is your pricing structure?</button>
+                        </h2>
+                        <div id="collapse4"
+                             class="accordion-collapse collapse"
+                             data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                I offer flexible pricing options including hourly rates, project-based pricing, and
+                                retainer agreements. Rates vary based on project complexity and duration. Let's discuss
+                                your specific needs to determine the best approach.
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 {% endblock %}
 {% block extra_css %}
     <style>

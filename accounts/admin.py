@@ -26,15 +26,7 @@ class UserAdmin(BaseUserAdmin):
         ),
         (
             "Professional",
-            {
-                "fields": (
-                    "is_developer",
-                    "github_username",
-                    "linkedin_url",
-                    "twitter_url",
-                    "website_url",
-                )
-            },
+            {"fields": ("is_developer",)},
         ),
         (
             "Permissions",
