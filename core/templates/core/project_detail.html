@@ -2,8 +2,7 @@
 {% block title %}{{ project.title }} - Project Details{% endblock %}
 {% block content %}
     <!-- Project Header -->
-    <section class="py-5"
-             style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
+    <section class="py-5 project-detail-header-section">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-8 fade-in">
@@ -78,7 +77,7 @@
     </section>
     <!-- Project Gallery -->
     {% if images %}
-        <section class="py-5 bg-dark">
+        <section class="py-5 project-gallery-section">
             <div class="container">
                 <h2 class="display-5 fw-bold mb-4 fade-in">Project Gallery</h2>
                 <div class="row g-4">
@@ -131,7 +130,7 @@
     </section>
     <!-- Related Projects -->
     {% if related_projects %}
-        <section class="py-5 bg-dark">
+        <section class="py-5 related-projects-section">
             <div class="container">
                 <h2 class="display-5 fw-bold mb-4 fade-in">Related Projects</h2>
                 <div class="row g-4">
@@ -166,13 +165,13 @@
         </section>
     {% endif %}
     <!-- Call to Action -->
-    <section class="py-5 text-center"
-             style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)">
+    <section class="py-5 text-center project-cta-section"
+             style="background-color: var(--light-bg)">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8 fade-in">
-                    <h2 class="display-4 fw-bold text-white mb-4">Interested in This Project?</h2>
-                    <p class="lead text-white-50 mb-4">
+                    <h2 class="display-4 fw-bold mb-4">Interested in This Project?</h2>
+                    <p class="lead mb-4">
                         Have questions about this project or want to discuss something similar?
                         I'd love to hear from you!
                     </p>

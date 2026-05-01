@@ -2424,3 +2424,366 @@ footer {
 .logo-image:hover {
     transform: scale(1.1);
 }
+
+/* ========================================
+   LIGHT MODE SECTION FIXES
+   ======================================== */
+
+/* Section-specific light mode styles */
+.light-theme .featured-projects-section {
+    background-color: var(--bg-primary);
+}
+
+.light-theme .skills-section {
+    background: var(--gradient-hero);
+}
+
+.light-theme .latest-blog-section {
+    background-color: var(--bg-primary);
+}
+
+.light-theme .about-section {
+    background: var(--gradient-hero);
+}
+
+.light-theme .experience-section {
+    background-color: var(--bg-primary);
+}
+
+.light-theme .about-skills-section {
+    background: var(--gradient-hero);
+}
+
+/* Dark mode section styles (preserve existing) */
+.dark-theme .featured-projects-section {
+    background-color: var(--bg-primary);
+}
+
+.dark-theme .skills-section {
+    background: var(--gradient-hero);
+}
+
+.dark-theme .latest-blog-section {
+    background-color: var(--bg-primary);
+}
+
+.dark-theme .about-section {
+    background: var(--gradient-hero);
+}
+
+.dark-theme .experience-section {
+    background-color: var(--bg-primary);
+}
+
+.dark-theme .about-skills-section {
+    background: var(--gradient-hero);
+}
+
+/* Fix hardcoded card backgrounds in about page */
+.light-theme .card.bg-dark {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-light) !important;
+}
+
+.light-theme .card.bg-dark .card-title {
+    color: var(--text-primary) !important;
+}
+
+.light-theme .card.bg-dark .card-text {
+    color: var(--text-secondary) !important;
+}
+
+/* Fix profile image border colors */
+.light-theme .rounded-circle[style*="border: 5px solid #3b82f6"] {
+    border-color: var(--primary-color) !important;
+}
+
+/* Fix skill item backgrounds */
+.light-theme .skill-item {
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--border-light) !important;
+}
+
+.light-theme .skill-item:hover {
+    background-color: var(--bg-tertiary) !important;
+}
+
+/* Fix timeline content */
+.light-theme .timeline-content {
+    background-color: var(--bg-card) !important;
+    border-color: var(--border-light) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Fix code window for light mode */
+.light-theme .code-window {
+    background: var(--bg-card);
+    border-color: var(--border-light);
+    box-shadow: var(--shadow-md);
+}
+
+.light-theme .window-header {
+    background: var(--bg-tertiary);
+}
+
+.light-theme .window-title {
+    color: var(--text-secondary);
+}
+
+.light-theme .window-content {
+    color: var(--text-primary);
+    background: var(--bg-card);
+}
+
+/* Fix social links in hero section */
+.light-theme .text-light {
+    color: var(--text-secondary) !important;
+}
+
+.light-theme .text-light:hover {
+    color: var(--primary-color) !important;
+}
+
+/* Fix footer theme variables */
+.light-theme footer {
+    background-color: var(--footer-bg) !important;
+    color: var(--text-primary) !important;
+}
+
+.light-theme footer h5 {
+    color: var(--text-primary) !important;
+}
+
+.light-theme footer .text-muted {
+    color: var(--text-muted) !important;
+}
+
+/* Fix white text on white background issues */
+.light-theme .text-white {
+    color: var(--text-primary) !important;
+}
+
+.light-theme .text-white-50 {
+    color: var(--text-secondary) !important;
+}
+
+/* Fix CTA section text colors */
+.light-theme .cta-section .text-white {
+    color: var(--text-primary) !important;
+}
+
+.light-theme .cta-section .text-white-50 {
+    color: var(--text-secondary) !important;
+}
+
+/* Projects and blog header sections */
+.light-theme .projects-header-section {
+    background: var(--gradient-hero);
+}
+
+.light-theme .blog-header-section {
+    background: var(--gradient-hero);
+}
+
+.dark-theme .projects-header-section {
+    background: var(--gradient-hero);
+}
+
+.dark-theme .blog-header-section {
+    background: var(--gradient-hero);
+}
+
+/* Fix CTA buttons for light mode */
+.light-theme .cta-secondary-btn {
+    background: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border: 2px solid var(--border-medium) !important;
+    backdrop-filter: none;
+}
+
+.light-theme .cta-secondary-btn:hover {
+    background: var(--bg-tertiary) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-strong) !important;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.light-theme .cta-primary-btn {
+    background: var(--gradient-primary) !important;
+    color: var(--text-inverse) !important;
+    border: none;
+    box-shadow: var(--shadow-md);
+}
+
+.light-theme .cta-primary-btn:hover {
+    background: var(--gradient-secondary) !important;
+    color: var(--text-inverse) !important;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Newsletter section fixes */
+.light-theme .newsletter-section {
+    background-color: var(--bg-primary);
+}
+
+.dark-theme .newsletter-section {
+    background-color: var(--bg-primary);
+}
+
+/* Newsletter form fixes for light mode */
+.light-theme .newsletter-form .form-control {
+    background-color: var(--input-bg) !important;
+    border: 2px solid var(--border-light) !important;
+    color: var(--text-primary) !important;
+}
+
+.light-theme .newsletter-form .form-control:focus {
+    background-color: var(--input-bg) !important;
+    border-color: var(--primary-color) !important;
+    color: var(--text-primary) !important;
+}
+
+.light-theme .newsletter-form .form-control::placeholder {
+    color: var(--text-muted) !important;
+}
+
+/* Project detail page sections */
+.light-theme .project-detail-header-section {
+    background: var(--gradient-hero);
+}
+
+.light-theme .project-gallery-section {
+    background-color: var(--bg-primary);
+}
+
+.light-theme .related-projects-section {
+    background-color: var(--bg-primary);
+}
+
+.light-theme .project-cta-section {
+    background: var(--gradient-hero) !important;
+}
+
+/* Contact page sections */
+.light-theme .contact-header-section {
+    background: var(--gradient-hero);
+}
+
+/* Dark mode equivalents (preserve existing) */
+.dark-theme .project-detail-header-section {
+    background: var(--gradient-hero);
+}
+
+.dark-theme .project-gallery-section {
+    background-color: var(--bg-primary);
+}
+
+.dark-theme .related-projects-section {
+    background-color: var(--bg-primary);
+}
+
+.dark-theme .project-cta-section {
+    background: var(--gradient-secondary) !important;
+}
+
+.dark-theme .contact-header-section {
+    background: var(--gradient-hero);
+}
+
+/* Fix project CTA section text colors */
+.light-theme .project-cta-section .text-white {
+    color: var(--text-primary) !important;
+}
+
+.light-theme .project-cta-section .text-white-50 {
+    color: var(--text-secondary) !important;
+}
+
+/* Fix contact form backgrounds */
+.light-theme .contact-form-container {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: var(--shadow-sm);
+}
+
+/* Fix any remaining dark form controls */
+.light-theme .form-control {
+    background-color: var(--input-bg) !important;
+    border: 2px solid var(--border-light) !important;
+    color: var(--text-primary) !important;
+}
+
+.light-theme .form-control:focus {
+    background-color: var(--input-bg) !important;
+    border-color: var(--primary-color) !important;
+    color: var(--text-primary) !important;
+}
+
+.light-theme .form-control::placeholder {
+    color: var(--text-muted) !important;
+}
+
+/* FAQ section fixes */
+.light-theme .faq-section {
+    background-color: var(--bg-primary);
+}
+
+.dark-theme .faq-section {
+    background-color: var(--bg-primary);
+}
+
+/* Contact Information text fixes */
+.light-theme .contact-info .text-white {
+    color: var(--text-primary) !important;
+}
+
+/* Contact info container styling */
+.light-theme .contact-info {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.light-theme .contact-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.light-theme .contact-item:last-child {
+    border-bottom: none;
+}
+
+/* Accordion styling for light mode */
+.light-theme .accordion-item {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.light-theme .accordion-button {
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    border: none;
+}
+
+.light-theme .accordion-button:focus {
+    box-shadow: none;
+    border-color: var(--border-light);
+}
+
+.light-theme .accordion-button:not(.collapsed) {
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+.light-theme .accordion-body {
+    background-color: var(--bg-card);
+    color: var(--text-secondary);
+}
