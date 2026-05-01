@@ -339,6 +339,7 @@ class ContactView(TemplateView):
             context["profile_user"] = None
             context["user_profile"] = None
 
+        
         return context
 
 

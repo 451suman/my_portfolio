@@ -78,12 +78,6 @@
                                 <label for="message" class="form-label">Message *</label>
                                 <textarea class="form-control" id="message" name="message" rows="6" required></textarea>
                             </div>
-                            <div class="mb-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="newsletter">
-                                    <label class="form-check-label" for="newsletter">Subscribe to my newsletter for updates</label>
-                                </div>
-                            </div>
                             <button type="submit" class="btn btn-primary btn-lg">
                                 <i class="fas fa-paper-plane me-2"></i>Send Message
                             </button>
@@ -101,8 +95,7 @@
                                     {% for social_link in social_links %}
                                         {% if social_link.platform == 'email' %}
                                             <a href="mailto:{{ social_link.url }}"
-                                               class="text-decoration-none text-white">{{
-                                            social_link.url }}</a>
+                                               class="text-decoration-none text-white">{{ social_link.url }}</a>
                                         {% endif %}
                                     {% empty %}
                                         <span class="text-white">Email not available</span>
