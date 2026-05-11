@@ -1,56 +1,292 @@
 {% extends 'base.html' %}
 {% block title %}Admin Login{% endblock %}
+{% block extra_css %}
+    <style>
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+    }
+    
+    .login-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1rem;
+    }
+    
+    .login-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        border-radius: 20px;
+        overflow: hidden;
+        max-width: 420px;
+        width: 100%;
+        transform: translateY(0);
+        transition: all 0.3s ease;
+    }
+    
+    .login-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    }
+    
+    .login-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 2rem;
+        text-align: center;
+    }
+    
+    .login-header h4 {
+        margin: 0;
+        font-weight: 600;
+        font-size: 1.5rem;
+    }
+    
+    .login-header .icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        opacity: 0.9;
+    }
+    
+    .login-body {
+        padding: 2rem;
+    }
+    
+    .form-floating {
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-control {
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        padding: 1rem;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #f8f9fa;
+    }
+    
+    .form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        background: white;
+    }
+    
+    .btn-login {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 10px;
+        padding: 1rem;
+        font-weight: 600;
+        font-size: 1.1rem;
+        color: white;
+        width: 100%;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .btn-login:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        color: white;
+    }
+    
+    .btn-login:active {
+        transform: translateY(0);
+    }
+    
+    .alert {
+        border-radius: 10px;
+        border: none;
+        margin-bottom: 1.5rem;
+    }
+    
+    .login-footer {
+        background: #f8f9fa;
+        padding: 1.5rem 2rem;
+        text-align: center;
+        border-top: 1px solid #e9ecef;
+    }
+    
+    .login-footer small {
+        color: #6c757d;
+        font-size: 0.875rem;
+    }
+    
+    .input-group-text {
+        background: transparent;
+        border: 2px solid #e9ecef;
+        border-right: none;
+        color: #6c757d;
+    }
+    
+    .input-group .form-control {
+        border-left: none;
+    }
+    
+    .input-group:focus-within .input-group-text {
+        border-color: #667eea;
+        color: #667eea;
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .login-card {
+        animation: fadeInUp 0.6s ease-out;
+    }
+    
+    .password-toggle {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: #6c757d;
+        cursor: pointer;
+        z-index: 10;
+        padding: 5px;
+    }
+    
+    .password-toggle:hover {
+        color: #667eea;
+    }
+    </style>
+{% endblock %}
 {% block content %}
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6 col-lg-4">
-                <div class="card bg-dark text-light">
-                    <div class="card-header bg-primary text-center">
-                        <h4 class="mb-0">
-                            <i class="fas fa-lock me-2"></i>
-                            Admin Login
-                        </h4>
-                    </div>
-                    <div class="card-body">
-                        {% if messages %}
-                            {% for message in messages %}
-                                <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
-                                    {{ message }}
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                </div>
-                            {% endfor %}
-                        {% endif %}
-                        <form method="post">
-                            {% csrf_token %}
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email"
-                                       class="form-control bg-dark text-light border-secondary"
-                                       id="email"
-                                       name="email"
-                                       required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password"
-                                       class="form-control bg-dark text-light border-secondary"
-                                       id="password"
-                                       name="password"
-                                       required>
-                            </div>
-                            <button type="submit" class="btn btn-primary w-100">
-                                <i class="fas fa-sign-in-alt me-2"></i>Login
-                            </button>
-                        </form>
-                    </div>
-                    <div class="card-footer text-center bg-secondary">
-                        <small class="text-muted">
-                            <i class="fas fa-info-circle me-1"></i>
-                            Admin access required for portfolio management
-                        </small>
-                    </div>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="icon">
+                    <i class="fas fa-shield-alt"></i>
                 </div>
+                <h4>Admin Login</h4>
+                <p class="mb-0 mt-2 opacity-75">Secure access to portfolio management</p>
+            </div>
+            <div class="login-body">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show"
+                             role="alert">
+                            <i class="fas fa-{% if message.tags == 'error' %}exclamation-triangle{% elif message.tags == 'success' %}check-circle{% else %}info-circle{% endif %} me-2"></i>
+                            {{ message }}
+                            <button type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <form method="post" id="loginForm">
+                    {% csrf_token %}
+                    <div class="form-floating mb-3">
+                        <input type="email"
+                               class="form-control"
+                               id="email"
+                               name="email"
+                               placeholder="name@example.com"
+                               required
+                               autocomplete="email">
+                        <label for="email">
+                            <i class="fas fa-envelope me-2"></i>Email Address
+                        </label>
+                    </div>
+                    <div class="form-floating mb-4 position-relative">
+                        <input type="password"
+                               class="form-control"
+                               id="password"
+                               name="password"
+                               placeholder="Password"
+                               required
+                               autocomplete="current-password">
+                        <label for="password">
+                            <i class="fas fa-lock me-2"></i>Password
+                        </label>
+                        <button type="button" class="password-toggle" onclick="togglePassword()">
+                            <i class="fas fa-eye" id="passwordToggleIcon"></i>
+                        </button>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-login">
+                            <i class="fas fa-sign-in-alt me-2"></i>
+                            Sign In
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="login-footer">
+                <small>
+                    <i class="fas fa-info-circle me-1"></i>
+                    Admin access required for portfolio management
+                </small>
             </div>
         </div>
     </div>
+    <script>
+function togglePassword() {
+    const passwordInput = document.getElementById('password');
+    const toggleIcon = document.getElementById('passwordToggleIcon');
+    
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleIcon.classList.remove('fa-eye');
+        toggleIcon.classList.add('fa-eye-slash');
+    } else {
+        passwordInput.type = 'password';
+        toggleIcon.classList.remove('fa-eye-slash');
+        toggleIcon.classList.add('fa-eye');
+    }
+}
+
+// Add form validation feedback
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    
+    // Remove existing validation classes
+    email.classList.remove('is-invalid', 'is-valid');
+    password.classList.remove('is-invalid', 'is-valid');
+    
+    let isValid = true;
+    
+    // Email validation
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email.value || !emailPattern.test(email.value)) {
+        email.classList.add('is-invalid');
+        isValid = false;
+    } else {
+        email.classList.add('is-valid');
+    }
+    
+    // Password validation
+    if (!password.value || password.value.length < 1) {
+        password.classList.add('is-invalid');
+        isValid = false;
+    } else {
+        password.classList.add('is-valid');
+    }
+    
+    if (!isValid) {
+        e.preventDefault();
+    }
+});
+
+// Auto-focus email field
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('email').focus();
+});
+    </script>
 {% endblock %}

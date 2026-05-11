@@ -339,7 +339,6 @@ class ContactView(TemplateView):
             context["profile_user"] = None
             context["user_profile"] = None
 
-        
         return context
 
 
@@ -443,20 +442,38 @@ class ProfileManagementView(TemplateView):
 # Simple Django Authentication Views
 def admin_login(request):
     """Simple Django login view for admin access"""
-    if request.method == "POST":
-        email = request.POST.get("email")
-        password = request.POST.get("password")
+    # Clear any existing messages to avoid confusion
+    storage = messages.get_messages(request)
+    storage.used = True
 
-        user = authenticate(request, username=email, password=password)
-        if user is not None:
-            if user.is_superuser:
-                login(request, user)
-                messages.success(request, "Successfully logged in!")
-                return redirect("core:profile_management")
+    if request.method == "POST":
+        email = request.POST.get("email", "").strip()
+        password = request.POST.get("password", "")
+
+        # Basic validation
+        if not email or not password:
+            messages.error(request, "Please provide both email and password.")
+            return render(request, "core/login.html")
+
+        # Try to authenticate user
+        try:
+            user = authenticate(request, username=email, password=password)
+            if user is not None:
+                if user.is_superuser:
+                    login(request, user)
+                    messages.success(
+                        request,
+                        f"Welcome back, {user.get_full_name() or user.username}!",
+                    )
+                    return redirect("core:profile_management")
+                else:
+                    messages.error(request, "Access denied. Admin privileges required.")
             else:
-                messages.error(request, "Access denied. Admin access required.")
-        else:
-            messages.error(request, "Invalid email or password.")
+                messages.error(request, "Invalid email or password. Please try again.")
+        except Exception as e:
+            # Log the error for debugging (in production, you'd use proper logging)
+            print(f"Login error: {e}")
+            messages.error(request, "An error occurred during login. Please try again.")
 
     return render(request, "core/login.html")
 

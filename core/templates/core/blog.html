@@ -132,6 +132,7 @@
                     <h2 class="display-5 fw-bold mb-3">Subscribe to My Newsletter</h2>
                     <p class="lead text-muted mb-4">Get the latest articles, tutorials, and updates delivered straight to your inbox.</p>
                     <form class="newsletter-form row g-3 justify-content-center">
+                        {% csrf_token %}
                         <div class="col-md-6">
                             <input type="email"
                                    class="form-control"

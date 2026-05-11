@@ -149,6 +149,7 @@
                         <h4>Leave a Comment</h4>
                         <form id="comment-form"
                               data-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}">
+                            {% csrf_token %}
                             <div class="row">
                                 {% if not user.is_authenticated %}
                                     <div class="col-md-6 mb-3">

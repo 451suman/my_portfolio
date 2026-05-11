@@ -18,6 +18,7 @@
                     <div class="contact-form-container">
                         <h3 class="mb-4">Send Me a Message</h3>
                         <form id="contact-form">
+                            {% csrf_token %}
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="name" class="form-label">Name *</label>
